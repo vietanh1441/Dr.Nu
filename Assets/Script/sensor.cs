@@ -16,6 +16,9 @@ public class sensor : MonoBehaviour {
 
     void OnTriggerEnter2D(Collider2D other)
     {
+        Debug.Log("Why Down");
+        Debug.Log(other);
+        Debug.Log(transform);
         if (type == 0)       //down
             transform.parent.SendMessage("Down", other.gameObject);
         else if (type == 1) //up
