@@ -14,16 +14,44 @@ public class individual : MonoBehaviour {
     public int hp;
     public GameObject link;
     public bool is_link;
+    private SpriteRenderer spriteRenderer; 
+    public Sprite[] color_sprite = new Sprite[5];
 
     void Start()
     {
-        if (color == 0)
-            transform.tag = "Yellow";
-        if (color == 10)
-            transform.tag = "Wall";
+        spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
+        //First, use random to randomize the color. The maximum color will be based on GameManager
+        Init_color();
+       
+
         //init
     }
 
+
+    void Init_color()
+    {
+        color = Random.Range(0, 4);
+        if (color == 0)
+        {
+            transform.tag = "Yellow";
+            spriteRenderer.sprite = color_sprite[color];
+        }
+        if(color == 1)
+        {
+            transform.tag = "Blue";
+            spriteRenderer.sprite = color_sprite[color];
+        }
+        if (color == 2)
+        {
+            transform.tag = "Red";
+            spriteRenderer.sprite = color_sprite[color];
+        }
+        if (color == 3)
+        {
+            transform.tag = "Green";
+            spriteRenderer.sprite = color_sprite[color];
+        }
+    }
   
 	// Update is called once per frame
 	void Update () {
@@ -185,23 +213,19 @@ public class individual : MonoBehaviour {
 
     void Down(GameObject other)
     {
-        
-        if(other != down)
+        down = other;
+        if (is_link)
         {
-            down = other;
-            //Run check***
-            if(type == 0 && down != link)
-            StartCoroutine("Delay");
-
-            if(is_link)
+            if (down != link)
             {
-                if(down != link)
-                {
-                    transform.parent.SendMessage("Down", true);
-                }
+                transform.parent.SendMessage("Down", true);
             }
         }
-        else
+    }
+
+    void Down_exit(GameObject other)
+    {
+        if (down == other)
         {
             down = null;
             if (is_link)
@@ -216,18 +240,19 @@ public class individual : MonoBehaviour {
 
     void Up(GameObject other)
     {
-        if (other != up)
+        up = other;
+        if (is_link)
         {
-            up = other;
-            if (is_link)
+            if (up != link)
             {
-                if (up != link)
-                {
-                    transform.parent.SendMessage("Up", true);
-                }
+                transform.parent.SendMessage("Up", true);
             }
         }
-        else
+    }
+
+    void Up_exit(GameObject other)
+    {
+        if (up == other)
         {
             up = null;
             if (is_link)
@@ -242,18 +267,19 @@ public class individual : MonoBehaviour {
 
     void Right(GameObject other)
     {
-        if (other != right)
+        right = other;
+        if (is_link)
         {
-            right = other;
-            if (is_link)
+            if (right != link)
             {
-                if (right != link)
-                {
-                    transform.parent.SendMessage("Right", true);
-                }
+                transform.parent.SendMessage("Right", true);
             }
         }
-        else
+    }
+
+    void Right_exit(GameObject other)
+    {
+        if (right == other)
         {
             right = null;
             if (is_link)
@@ -268,18 +294,19 @@ public class individual : MonoBehaviour {
 
     void Left(GameObject other)
     {
-        if (other != left)
+       left = other;
+        if (is_link)
         {
-            left = other;
-            if (is_link)
+            if (left != link)
             {
-                if (left != link)
-                {
-                    transform.parent.SendMessage("Left", true);
-                }
+                transform.parent.SendMessage("Left", true);
             }
         }
-        else
+    }
+
+    void Left_exit(GameObject other)
+    {
+        if(left == other)
         {
             left = null;
             if (is_link)

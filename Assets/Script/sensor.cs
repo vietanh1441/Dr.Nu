@@ -30,12 +30,12 @@ public class sensor : MonoBehaviour {
     void OnTriggerExit2D(Collider2D other)
     {
         if (type == 0)       //down
-            transform.parent.SendMessage("Down", other.gameObject);
+            transform.parent.SendMessage("Down_exit", other.gameObject);
         else if (type == 1) //up
-            transform.parent.SendMessage("Up", other.gameObject);
+            transform.parent.SendMessage("Up_exit", other.gameObject);
         else if (type == 2) //right
-            transform.parent.SendMessage("Right", other.gameObject);
+            transform.parent.SendMessage("Right_exit", other.gameObject);
         else if (type == 3) //left
-            transform.parent.SendMessage("Left", other.gameObject);
+            transform.parent.SendMessage("Left_exit", other.gameObject);
     }
 }

@@ -10,7 +10,6 @@ public class medicine : MonoBehaviour {
 	void Start () {
         //First control is false, put it in display***
         
-        control = true;
 
         //4 state of spining of the medicine
         state = 0;
