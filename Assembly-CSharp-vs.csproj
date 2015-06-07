@@ -49,6 +49,7 @@
      <Compile Include="Assets\Script\individual.cs" />
      <Compile Include="Assets\Script\medicine.cs" />
      <Compile Include="Assets\Script\sensor.cs" />
+     <Compile Include="Assets\Wall.cs" />
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>

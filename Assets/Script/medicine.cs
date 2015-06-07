@@ -66,4 +66,18 @@ public class medicine : MonoBehaviour {
     {
         left = sensor;
     }
+
+    void Break()
+    {
+        //When one obj is destroyed, it will send its parent that it is destroyed
+        //The medicine will then broadcast message to unlink to all its children if there are any children left
+
+        if(med1 != null || med2!= null)
+        BroadcastMessage("Break_link");
+
+       // transform.DetachChildren();
+        Debug.Log("Breaking Link");
+        //It then destroyed itself
+        Destroy(gameObject);
+    }
 }

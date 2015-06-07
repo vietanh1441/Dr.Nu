@@ -19,6 +19,8 @@ public class individual : MonoBehaviour {
     {
         if (color == 0)
             transform.tag = "Yellow";
+        if (color == 10)
+            transform.tag = "Wall";
         //init
     }
 
@@ -32,6 +34,7 @@ public class individual : MonoBehaviour {
                 transform.Translate(0, -1 * Time.deltaTime, 0);
             }
         }
+
      
 	}
 
@@ -161,8 +164,24 @@ public class individual : MonoBehaviour {
 
     IEnumerator Delay()
     {
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(0.5f);
         Check(0);
+    }
+
+
+    void OnDestroy()
+    {
+        Debug.Log("Destroy");
+        if(transform.parent != null)
+            transform.parent.gameObject.SendMessage("Break");
+    }
+
+
+    void Break_link()
+    {
+        transform.parent = null;
+        link = null;
+        is_link = false;
     }
 
     void Down(GameObject other)
