@@ -47,7 +47,6 @@ public class individual : MonoBehaviour {
     // 4 = left
     void Check(int dir)
     {
-        Debug.Log(dir);
         bool vertical = false;
         bool horizontal = false;
         if (dir == 0)
@@ -190,8 +189,8 @@ public class individual : MonoBehaviour {
         if(other != down)
         {
             down = other;
-            Debug.Log("In Down");
             //Run check***
+            if(type == 0 && down != link)
             StartCoroutine("Delay");
 
             if(is_link)

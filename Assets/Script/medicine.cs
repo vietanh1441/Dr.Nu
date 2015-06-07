@@ -5,11 +5,17 @@ public class medicine : MonoBehaviour {
     public bool up, down, right, left;
     public Transform med1, med2;
     public bool control;
+    public int state;
 	// Use this for initialization
 	void Start () {
         //First control is false, put it in display***
         
         control = true;
+
+        //4 state of spining of the medicine
+        state = 0;
+        med1.localPosition = new Vector3(-0.5f, 0, 0);
+        med2.localPosition = new Vector3(0.5f, 0, 0);
 	}
 	
     void Ready()
@@ -33,6 +39,14 @@ public class medicine : MonoBehaviour {
             {
                 transform.Translate(1, 0, 0);
             }
+            if(Input.GetKeyDown(KeyCode.Q))
+            {
+                Move(0);
+            }
+            if(Input.GetKeyDown(KeyCode.E))
+            {
+                Move(1);
+            }
         }
         else
         {
@@ -40,6 +54,126 @@ public class medicine : MonoBehaviour {
             control = false;
         }
     }
+
+    //direnction:   0 = Q = left
+    //              1 = E = right
+    void Move(int dir)
+    {
+
+        //In state that 2 med are next to each other where med1 = -0.5, med2 = 0.5
+        if(state == 0)
+        {
+            Debug.Log("In state 0" + dir);  
+            if(dir == 0 && !up)
+            {
+                //The right object move to top
+                state = 1;
+                med2.localPosition = new Vector3(med1.localPosition.x,1,0);
+                
+            }
+            if(dir == 1 && !up)
+            {
+                //left object move to top
+                state = 3;
+                med1.localPosition = new Vector3(med2.localPosition.x, 1, 0);
+            }
+        }
+
+        //In state that med2 is on top of med 1 and both are in (-0.5)
+        //
+        else if (state == 1)
+        {
+            if (dir == 0 && !up)
+            {
+                //The right object move to top
+                state = 2;
+                if (!right)
+                {
+                    med1.localPosition = new Vector3(med1.localPosition.x + 1, 0, 0);
+                    med2.localPosition = new Vector3(med2.localPosition.x, 0, 0);
+                }
+                else
+                {
+                    med1.localPosition = new Vector3(med1.localPosition.x,0,0);
+                    med2.localPosition = new Vector3(med2.localPosition.x - 1, 0, 0);
+                }
+
+            }
+            if (dir == 1 && !up)
+            {
+                //left object move to top
+                state = 0;
+                if (!left)
+                {
+                    med1.localPosition = new Vector3(med1.localPosition.x-1, 0, 0);
+                    med2.localPosition = new Vector3(med2.localPosition.x, 0, 0);
+                }
+                else
+                {
+                    med1.localPosition = new Vector3(med1.localPosition.x, 0, 0);
+                    med2.localPosition = new Vector3(med2.localPosition.x+1 , 0, 0);
+                }
+            }
+        }
+
+
+        //In state that med2 is on left and med1 is on right
+        else if (state == 2)
+        {
+            if (dir == 0 && !up)
+            {
+                //The right object move to top
+                state = 3;
+
+                med1.localPosition = new Vector3(med2.localPosition.x, 1, 0);
+
+            }
+            if (dir == 1 && !up)
+            {
+                //left object move to top
+                state = 1;
+                med2.localPosition = new Vector3(med1.localPosition.x, 1, 0);
+            }
+        }
+
+        //In state that med 1 is on top of med 2 
+        else if (state == 3)
+        {
+            if (dir == 0 && !up)
+            {
+                //The right object move to top
+                state = 0;
+                if (!right)
+                {
+                    med1.localPosition = new Vector3(med1.localPosition.x, 0, 0);
+                    med2.localPosition = new Vector3(med2.localPosition.x + 1, 0, 0);
+                }
+                else
+                {
+                    med1.localPosition = new Vector3(med1.localPosition.x -1, 0, 0);
+                    med2.localPosition = new Vector3(med2.localPosition.x , 0, 0);
+                }
+
+            }
+            if (dir == 1 && !up)
+            {
+                //left object move to top
+                state = 2;
+                if (!left)
+                {
+                    med1.localPosition = new Vector3(med1.localPosition.x, 0, 0);
+                    med2.localPosition = new Vector3(med2.localPosition.x-1, 0, 0);
+                }
+                else
+                {
+                    med1.localPosition = new Vector3(med1.localPosition.x+1, 0, 0);
+                    med2.localPosition = new Vector3(med2.localPosition.x , 0, 0);
+                }
+            }
+        }
+
+    }
+
 
     //When one piece is destroyed, unlink and unparent the other piece***
     //And destroy self.
