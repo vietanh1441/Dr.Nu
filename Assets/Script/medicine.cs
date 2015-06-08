@@ -6,11 +6,13 @@ public class medicine : MonoBehaviour {
     public Transform med1, med2;
     public bool control;
     public int state;
+    public float speed = 1;
+    public GameObject central;
 	// Use this for initialization
-	void Start () {
+	void Awake () {
         //First control is false, put it in display***
-        
-
+        central = GameObject.FindGameObjectWithTag("Central");
+        control = false;
         //4 state of spining of the medicine
         state = 0;
         med1.localPosition = new Vector3(-0.5f, 0, 0);
@@ -19,8 +21,12 @@ public class medicine : MonoBehaviour {
 	
     void Ready()
     {
-        //When central signal is ready, send it to the top***
-        //Also, enable control***
+        //When central signal is ready, send it to the top
+        transform.position = new Vector3(40.5f, 40, 0);
+
+
+        //Also, enable control
+        control = true;
     }
 
 	// Update is called once per frame
@@ -28,7 +34,7 @@ public class medicine : MonoBehaviour {
 
         if (down == false && control)
         {
-            transform.Translate(0, -1 * Time.deltaTime, 0);
+            transform.Translate(0, -speed * Time.deltaTime, 0);
 
             if (Input.GetKeyDown(KeyCode.A) && !left)
             {
@@ -46,10 +52,20 @@ public class medicine : MonoBehaviour {
             {
                 Move(1);
             }
+            if(Input.GetKeyDown(KeyCode.S))
+            {
+                speed = 10;
+            }
+            if(Input.GetKeyUp(KeyCode.S))
+            {
+                speed = 1;
+            }
         }
         else
         {
-            //Function to send signal to ready the next one, disable control***
+            //Function to send signal to ready the next one, disable control
+            if(control == true)
+                central.SendMessage("GetSignal");
             control = false;
         }
     }

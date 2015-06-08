@@ -191,6 +191,7 @@ public class individual : MonoBehaviour {
 
     IEnumerator Delay()
     {
+       
         yield return new WaitForSeconds(0.5f);
         Check(0);
     }
@@ -198,7 +199,6 @@ public class individual : MonoBehaviour {
 
     void OnDestroy()
     {
-        Debug.Log("Destroy");
         if(transform.parent != null)
             transform.parent.gameObject.SendMessage("Break");
     }
@@ -214,6 +214,7 @@ public class individual : MonoBehaviour {
     void Down(GameObject other)
     {
         down = other;
+        StartCoroutine("Delay");
         if (is_link)
         {
             if (down != link)
