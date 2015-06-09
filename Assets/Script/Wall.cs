@@ -5,6 +5,7 @@ public class Wall : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+        if(transform.tag != "SideWall")
         transform.tag = "Wall";
 	}
 	

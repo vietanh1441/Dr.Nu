@@ -8,8 +8,11 @@ public class medicine : MonoBehaviour {
     public int state;
     public float speed = 1;
     public GameObject central;
+    bool slow;
+    private GameObject lookahead;
 	// Use this for initialization
 	void Awake () {
+        slow = false;
         //First control is false, put it in display***
         central = GameObject.FindGameObjectWithTag("Central");
         control = false;
@@ -31,16 +34,16 @@ public class medicine : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-
+        
         if (down == false && control)
         {
             transform.Translate(0, -speed * Time.deltaTime, 0);
 
-            if (Input.GetKeyDown(KeyCode.A) && !left)
+            if (Input.GetKeyDown(KeyCode.A) && !left && transform.position.x > 37)
             {
                 transform.Translate(-1, 0, 0);
             }
-            if (Input.GetKeyDown(KeyCode.D) && !right)
+            if (Input.GetKeyDown(KeyCode.D) && !right && transform.position.x < 45)
             {
                 transform.Translate(1, 0, 0);
             }
@@ -52,9 +55,15 @@ public class medicine : MonoBehaviour {
             {
                 Move(1);
             }
-            if(Input.GetKeyDown(KeyCode.S))
+            if(Input.GetKeyDown(KeyCode.S) )
             {
-                speed = 10;
+                if (!slow)
+                    speed = 10;
+            }
+            //if there is an object under, then slow down
+            if(slow)
+            {
+                speed = 1;
             }
             if(Input.GetKeyUp(KeyCode.S))
             {
@@ -68,6 +77,13 @@ public class medicine : MonoBehaviour {
                 central.SendMessage("GetSignal");
             control = false;
         }
+        if(!control)
+        {
+            if (Mathf.Abs(transform.position.y - (int)transform.position.y) > 0.8)
+                transform.position = new Vector3(transform.position.x, (int)transform.position.y+1, transform.position.z);
+            if (Mathf.Abs((int)transform.position.y - transform.position.y) < 0.2)
+                transform.position = new Vector3(transform.position.x, (int)transform.position.y , transform.position.z);
+        }
     }
 
     //direnction:   0 = Q = left
@@ -78,7 +94,7 @@ public class medicine : MonoBehaviour {
         //In state that 2 med are next to each other where med1 = -0.5, med2 = 0.5
         if(state == 0)
         {
-            Debug.Log("In state 0" + dir);  
+
             if(dir == 0 && !up)
             {
                 //The right object move to top
@@ -229,4 +245,25 @@ public class medicine : MonoBehaviour {
         //It then destroyed itself
         Destroy(gameObject);
     }
+
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.transform.tag != "SideWall")
+        {
+            slow = true;
+            lookahead = other.gameObject;
+        }
+    }
+
+    void OnTriggerExit2D(Collider2D other)
+    {
+        if (other.transform.tag != "SideWall")
+        {
+            if(other.gameObject == lookahead)
+            {
+                slow = false;
+            }
+        }
+    }
+
 }

@@ -59,11 +59,17 @@ public class individual : MonoBehaviour {
         {
             if (down == null)
             {
-                transform.Translate(0, -1 * Time.deltaTime, 0);
+                transform.Translate(0, -3 * Time.deltaTime, 0);
+            }
+            else if (!is_link)
+            {
+                if (Mathf.Abs(transform.position.y - (int)transform.position.y) > 0.8)
+                    transform.position = new Vector3(transform.position.x, (int)transform.position.y + 1, transform.position.z);
+                if (Mathf.Abs((int)transform.position.y - transform.position.y) < 0.2)
+                    transform.position = new Vector3(transform.position.x, (int)transform.position.y, transform.position.z);
             }
         }
-
-     
+        
 	}
 
     //Check to see if match 3
