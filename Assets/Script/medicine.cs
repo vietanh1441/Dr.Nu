@@ -5,14 +5,19 @@ public class medicine : MonoBehaviour {
     public bool up, down, right, left;
     public Transform med1, med2;
     public bool control;
+    public bool ready;
     public int state;
-    public float speed = 1;
+    public float speed = 3;
     public GameObject central;
     bool slow;
+    private int left_limit, right_limit;
     private GameObject lookahead;
 	// Use this for initialization
 	void Awake () {
         slow = false;
+        ready = false;
+        left_limit = 36;
+        right_limit = 46;
         //First control is false, put it in display***
         central = GameObject.FindGameObjectWithTag("Central");
         control = false;
@@ -29,60 +34,86 @@ public class medicine : MonoBehaviour {
 
 
         //Also, enable control
+        StartCoroutine("Delay_control");
+    }
+
+
+    IEnumerator Delay_control()
+    {
+        yield return new WaitForEndOfFrame();
         control = true;
+        ready = true;
     }
 
 	// Update is called once per frame
 	void Update () {
-        
-        if (down == false && control)
-        {
-            transform.Translate(0, -speed * Time.deltaTime, 0);
 
-            if (Input.GetKeyDown(KeyCode.A) && !left && transform.position.x > 37)
-            {
-                transform.Translate(-1, 0, 0);
-            }
-            if (Input.GetKeyDown(KeyCode.D) && !right && transform.position.x < 45)
-            {
-                transform.Translate(1, 0, 0);
-            }
-            if(Input.GetKeyDown(KeyCode.Q))
-            {
-                Move(0);
-            }
-            if(Input.GetKeyDown(KeyCode.E))
-            {
-                Move(1);
-            }
-            if(Input.GetKeyDown(KeyCode.S) )
-            {
-                if (!slow)
-                    speed = 10;
-            }
-            //if there is an object under, then slow down
-            if(slow)
-            {
-                speed = 1;
-            }
-            if(Input.GetKeyUp(KeyCode.S))
-            {
-                speed = 1;
-            }
+        if (ready == false)
+        {
+            //Do Nothing
         }
         else
         {
-            //Function to send signal to ready the next one, disable control
-            if(control == true)
-                central.SendMessage("GetSignal");
-            control = false;
-        }
-        if(!control)
-        {
-            if (Mathf.Abs(transform.position.y - (int)transform.position.y) > 0.8)
-                transform.position = new Vector3(transform.position.x, (int)transform.position.y+1, transform.position.z);
-            if (Mathf.Abs((int)transform.position.y - transform.position.y) < 0.2)
-                transform.position = new Vector3(transform.position.x, (int)transform.position.y , transform.position.z);
+            if (down == false && control)
+            {
+                transform.Translate(0, -speed * Time.deltaTime, 0);
+
+                if (Input.GetKeyDown(KeyCode.A) && !left && transform.position.x > left_limit)
+                {
+                    transform.Translate(-1, 0, 0);
+                }
+                if (Input.GetKeyDown(KeyCode.D) && !right && transform.position.x < right_limit)
+                {
+                    transform.Translate(1, 0, 0);
+                }
+                if (Input.GetKeyDown(KeyCode.Q))
+                {
+                    Move(0);
+                }
+                if (Input.GetKeyDown(KeyCode.E))
+                {
+                    Move(1);
+                }
+                if (Input.GetKeyDown(KeyCode.S))
+                {
+                    if (!slow)
+                        speed = 10;
+                }
+                //if there is an object under, then slow down
+                if (slow)
+                {
+                    speed = 1;
+                }
+                if (Input.GetKeyUp(KeyCode.S))
+                {
+                    speed = 1;
+                }
+            }
+            else
+            {
+                //Function to send signal to ready the next one, disable control
+                if (control == true)
+                    central.SendMessage("GetSignal");
+                control = false;
+            }
+            if (!control)
+            {
+                if (down == false)
+                {
+                    transform.Translate(0, -speed * Time.deltaTime, 0);
+                }
+                else
+                {
+                    if (Mathf.Abs(transform.position.y - (int)transform.position.y) > 0.8)
+                        transform.position = new Vector3(transform.position.x, (int)transform.position.y + 1, transform.position.z);
+                    if (Mathf.Abs((int)transform.position.y - transform.position.y) < 0.2)
+                        transform.position = new Vector3(transform.position.x, (int)transform.position.y, transform.position.z);
+                }
+            }
+            if (transform.position.x < left_limit)
+                transform.position = new Vector3(left_limit + 0.5f,transform.position.y, transform.position.z);
+            if (transform.position.x > right_limit)
+                transform.position = new Vector3(right_limit - 0.5f, transform.position.y, transform.position.z);
         }
     }
 
@@ -99,14 +130,14 @@ public class medicine : MonoBehaviour {
             {
                 //The right object move to top
                 state = 1;
-                med2.localPosition = new Vector3(med1.localPosition.x,1,0);
+               
                 
             }
             if(dir == 1 && !up)
             {
                 //left object move to top
                 state = 3;
-                med1.localPosition = new Vector3(med2.localPosition.x, 1, 0);
+               
             }
         }
 
@@ -118,32 +149,14 @@ public class medicine : MonoBehaviour {
             {
                 //The right object move to top
                 state = 2;
-                if (!right)
-                {
-                    med1.localPosition = new Vector3(med1.localPosition.x + 1, 0, 0);
-                    med2.localPosition = new Vector3(med2.localPosition.x, 0, 0);
-                }
-                else
-                {
-                    med1.localPosition = new Vector3(med1.localPosition.x,0,0);
-                    med2.localPosition = new Vector3(med2.localPosition.x - 1, 0, 0);
-                }
+       
 
             }
             if (dir == 1 && !up)
             {
                 //left object move to top
                 state = 0;
-                if (!left)
-                {
-                    med1.localPosition = new Vector3(med1.localPosition.x-1, 0, 0);
-                    med2.localPosition = new Vector3(med2.localPosition.x, 0, 0);
-                }
-                else
-                {
-                    med1.localPosition = new Vector3(med1.localPosition.x, 0, 0);
-                    med2.localPosition = new Vector3(med2.localPosition.x+1 , 0, 0);
-                }
+               
             }
         }
 
@@ -156,14 +169,13 @@ public class medicine : MonoBehaviour {
                 //The right object move to top
                 state = 3;
 
-                med1.localPosition = new Vector3(med2.localPosition.x, 1, 0);
-
+               
             }
             if (dir == 1 && !up)
             {
                 //left object move to top
                 state = 1;
-                med2.localPosition = new Vector3(med1.localPosition.x, 1, 0);
+              
             }
         }
 
@@ -174,35 +186,46 @@ public class medicine : MonoBehaviour {
             {
                 //The right object move to top
                 state = 0;
-                if (!right)
-                {
-                    med1.localPosition = new Vector3(med1.localPosition.x, 0, 0);
-                    med2.localPosition = new Vector3(med2.localPosition.x + 1, 0, 0);
-                }
-                else
-                {
-                    med1.localPosition = new Vector3(med1.localPosition.x -1, 0, 0);
-                    med2.localPosition = new Vector3(med2.localPosition.x , 0, 0);
-                }
+               
 
             }
             if (dir == 1 && !up)
             {
                 //left object move to top
                 state = 2;
-                if (!left)
-                {
-                    med1.localPosition = new Vector3(med1.localPosition.x, 0, 0);
-                    med2.localPosition = new Vector3(med2.localPosition.x-1, 0, 0);
-                }
-                else
-                {
-                    med1.localPosition = new Vector3(med1.localPosition.x+1, 0, 0);
-                    med2.localPosition = new Vector3(med2.localPosition.x , 0, 0);
-                }
+              
             }
         }
 
+        if(state == 1)
+        {
+            med1.localPosition = new Vector3(-0.5f, 0, 0);
+            med2.localPosition = new Vector3(-0.5f, 1, 0);
+            left_limit = 36;
+            right_limit = 47;
+        }
+        else if (state == 2)
+        {
+            med1.localPosition = new Vector3(0.5f, 0, 0);
+            med2.localPosition = new Vector3(-0.5f, 0, 0);
+
+            left_limit = 36;
+            right_limit = 46;
+        }
+        else if (state == 3)
+        {
+            med1.localPosition = new Vector3(0.5f, 1, 0);
+            med2.localPosition = new Vector3(0.5f, 0, 0);
+            left_limit = 35;
+            right_limit = 46;
+        }
+        else if (state == 0)
+        {
+            med1.localPosition = new Vector3(-0.5f, 0, 0);
+            med2.localPosition = new Vector3(0.5f, 0, 0);
+            left_limit = 36;
+            right_limit = 46;
+        }
     }
 
 
@@ -254,6 +277,8 @@ public class medicine : MonoBehaviour {
             lookahead = other.gameObject;
         }
     }
+
+   
 
     void OnTriggerExit2D(Collider2D other)
     {

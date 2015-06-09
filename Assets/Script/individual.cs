@@ -205,8 +205,10 @@ public class individual : MonoBehaviour {
 
     void OnDestroy()
     {
-        if(transform.parent != null)
+        if (transform.root != transform)
             transform.parent.gameObject.SendMessage("Break");
+        if (up != null)
+            up.transform.gameObject.SendMessage("Down_exit",gameObject);
     }
 
 
