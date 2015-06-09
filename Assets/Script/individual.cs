@@ -11,6 +11,9 @@ public class individual : MonoBehaviour {
     public GameObject right, left, up, down;
     public int color;
     public int type;
+    //0 normal, from the medicine
+    //1 normal, not from medicine, but do not come down
+    //2 virus
     public int hp;
     public GameObject link;
     public bool is_link;
@@ -181,19 +184,27 @@ public class individual : MonoBehaviour {
 
         if (vertical == true)
         {
-            Destroy(down);
-            Destroy(up);
+            down.SendMessage("Damaged_Loss", 1);
+            up.SendMessage("Damaged_Loss", 1);
             
         }
         if(horizontal == true)
         {
-            Destroy(right);
-            Destroy(left);
+            right.SendMessage("Damaged_Loss", 1);
+            left.SendMessage("Damaged_Loss", 1);
         }
         if(vertical || horizontal)
-            Destroy(gameObject);
+            Damaged_Loss(1);
 
     }
+
+
+    void Damaged_Loss(int loss)
+    {
+        Debug.Log("Call" + loss + transform.name);
+        Destroy(gameObject);
+    }
+
 
     IEnumerator Delay()
     {
