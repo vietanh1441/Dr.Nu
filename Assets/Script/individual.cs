@@ -23,6 +23,10 @@ public class individual : MonoBehaviour {
     void Start()
     {
         spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
+        if (type == 0)
+        {
+            spriteRenderer.sprite = color_sprite[0];
+        }
         //First, use random to randomize the color. The maximum color will be based on GameManager
         Init_color();
        
@@ -30,30 +34,36 @@ public class individual : MonoBehaviour {
         //init
     }
 
-
+    void State(int state)
+    {
+        
+            spriteRenderer.sprite = color_sprite[state];
+    
+    }
     void Init_color()
     {
         color = Random.Range(0, 4);
         if (color == 0)
         {
             transform.tag = "Yellow";
-            spriteRenderer.sprite = color_sprite[color];
+            spriteRenderer.color = Color.yellow;
         }
         if(color == 1)
         {
             transform.tag = "Blue";
-            spriteRenderer.sprite = color_sprite[color];
+            spriteRenderer.color = Color.blue;
         }
         if (color == 2)
         {
             transform.tag = "Red";
-            spriteRenderer.sprite = color_sprite[color];
+            spriteRenderer.color = Color.red;
         }
         if (color == 3)
         {
             transform.tag = "Green";
-            spriteRenderer.sprite = color_sprite[color];
+            spriteRenderer.color = Color.green;
         }
+        
     }
   
 	// Update is called once per frame
@@ -228,6 +238,7 @@ public class individual : MonoBehaviour {
         transform.parent = null;
         link = null;
         is_link = false;
+        spriteRenderer.sprite = color_sprite[4];
     }
 
     void Down(GameObject other)

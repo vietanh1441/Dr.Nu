@@ -226,6 +226,8 @@ public class medicine : MonoBehaviour {
             left_limit = 36;
             right_limit = 46;
         }
+        med1.SendMessage("State", state);
+        med2.SendMessage("State", state);
     }
 
 
