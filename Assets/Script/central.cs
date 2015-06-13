@@ -28,7 +28,30 @@ public class central : MonoBehaviour {
         
 	}
 
+    public void AddVirus(GameObject other)
+    {
+        virus.Add(other);
+    }
 
+    public void RemoveVirus(GameObject other)
+    {
+        virus.Remove(other);
+        CheckWin();
+    }
+
+
+    void CheckWin()
+    {
+        if(virus.Count == 0)
+        {
+            Winning();
+        }
+    }
+
+    void Winning()
+    {
+        Debug.Log("Win");
+    }
     void InitialiseList()
     {
         //Clear our list gridPositions.

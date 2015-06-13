@@ -11,6 +11,8 @@ public class individual : MonoBehaviour {
     public GameObject right, left, up, down;
     public int color;
     public int type;
+    public GameObject central_obj;
+    public central central_scr;
     //0 normal, from the medicine
     //1 normal, not from medicine, but do not come down
     //2 virus
@@ -22,10 +24,16 @@ public class individual : MonoBehaviour {
 
     void Start()
     {
+        central_obj = GameObject.FindGameObjectWithTag("Central");
+        central_scr = central_obj.GetComponent<central>();
         spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
         if (type == 0)
         {
             spriteRenderer.sprite = color_sprite[0];
+        }
+        if(type == 2)
+        {
+            central_scr.AddVirus(gameObject);
         }
         //First, use random to randomize the color. The maximum color will be based on GameManager
         Init_color();
@@ -213,6 +221,7 @@ public class individual : MonoBehaviour {
     {
         Debug.Log("Call" + loss + transform.name);
         Destroy(gameObject);
+
     }
 
 
@@ -226,6 +235,10 @@ public class individual : MonoBehaviour {
 
     void OnDestroy()
     {
+        if(type == 2)
+        {
+            central_scr.RemoveVirus(gameObject);
+        }
         if (transform.root != transform)
             transform.parent.gameObject.SendMessage("Break");
         if (up != null)
