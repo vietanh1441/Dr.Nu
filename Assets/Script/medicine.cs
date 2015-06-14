@@ -125,8 +125,8 @@ public class medicine : MonoBehaviour {
     {
         if (state == 0 || state == 2)
         {
-            RaycastHit2D up1 = Physics2D.Raycast(new Vector2(transform.position.x - 0.5f, transform.position.y + 0.5f), Vector2.up, 0.5f);
-            RaycastHit2D up2 = Physics2D.Raycast(new Vector2(transform.position.x + 0.5f, transform.position.y + 0.5f), Vector2.up, 0.5f);
+            RaycastHit2D up1 = Physics2D.Raycast(new Vector2(transform.position.x - 0.5f, transform.position.y + 0.5f), Vector2.up, 0.4f);
+            RaycastHit2D up2 = Physics2D.Raycast(new Vector2(transform.position.x + 0.5f, transform.position.y + 0.5f), Vector2.up, 0.4f);
             if ((up1.transform != null) || (up2.transform != null))
             {
                 up = true;
@@ -136,7 +136,7 @@ public class medicine : MonoBehaviour {
             {
                 up = false;
             }
-            up1 = Physics2D.Raycast(new Vector2(transform.position.x - 1f, transform.position.y), -Vector2.right, 0.5f);
+            up1 = Physics2D.Raycast(new Vector2(transform.position.x - 1f, transform.position.y), -Vector2.right, 0.4f);
             if (up1.transform != null)
             {
                 left = true;
@@ -145,7 +145,7 @@ public class medicine : MonoBehaviour {
             {
                 left = false;
             }
-            up1 = Physics2D.Raycast(new Vector2(transform.position.x + 1f, transform.position.y), Vector2.right, 0.5f);
+            up1 = Physics2D.Raycast(new Vector2(transform.position.x + 1f, transform.position.y), Vector2.right, 0.4f);
             if (up1.transform != null)
             {
                 right = true;
@@ -168,7 +168,7 @@ public class medicine : MonoBehaviour {
 
         if(state == 1)
         {
-            RaycastHit2D up1 = Physics2D.Raycast(new Vector2(transform.position.x - 0.5f, transform.position.y + 1.5f), Vector2.up, 0.5f);
+            RaycastHit2D up1 = Physics2D.Raycast(new Vector2(transform.position.x - 0.5f, transform.position.y + 1.5f), Vector2.up, 0.4f);
             if (up1.transform != null)
             {
                 up = true;
@@ -177,9 +177,9 @@ public class medicine : MonoBehaviour {
             {
                 up = false;
             }
-            up1 = Physics2D.Raycast(new Vector2(transform.position.x -1, transform.position.y), -Vector2.right, 0.5f);
-            RaycastHit2D up2 = Physics2D.Raycast(new Vector2(transform.position.x -1, transform.position.y + 1), -Vector2.right, 0.5f);
-            RaycastHit2D up3 = Physics2D.Raycast(new Vector2(transform.position.x-1, transform.position.y + 0.5f), -Vector2.right, 0.5f);
+            up1 = Physics2D.Raycast(new Vector2(transform.position.x -1, transform.position.y), -Vector2.right, 0.4f);
+            RaycastHit2D up2 = Physics2D.Raycast(new Vector2(transform.position.x -1, transform.position.y + 1), -Vector2.right, 0.4f);
+            RaycastHit2D up3 = Physics2D.Raycast(new Vector2(transform.position.x-1, transform.position.y + 0.5f), -Vector2.right, 0.4f);
             if ((up1.transform != null) || (up2.transform != null)|| (up3.transform != null))
             {
                 left = true;
@@ -188,9 +188,9 @@ public class medicine : MonoBehaviour {
             {
                 left = false;
             }
-            up1 = Physics2D.Raycast(new Vector2(transform.position.x , transform.position.y ), Vector2.right, 0.5f);
-            up2 = Physics2D.Raycast(new Vector2(transform.position.x , transform.position.y +1), Vector2.right, 0.5f);
-            up3 = Physics2D.Raycast(new Vector2(transform.position.x, transform.position.y + 0.5f), Vector2.right, 0.5f);
+            up1 = Physics2D.Raycast(new Vector2(transform.position.x , transform.position.y ), Vector2.right, 0.4f);
+            up2 = Physics2D.Raycast(new Vector2(transform.position.x , transform.position.y +1), Vector2.right, 0.4f);
+            up3 = Physics2D.Raycast(new Vector2(transform.position.x, transform.position.y + 0.5f), Vector2.right, 0.4f);
             if ((up1.transform != null) || (up2.transform != null) || (up3.transform != null))
             {
                 right = true;
@@ -212,7 +212,7 @@ public class medicine : MonoBehaviour {
 
         if (state == 3)
         {
-            RaycastHit2D up1 = Physics2D.Raycast(new Vector2(transform.position.x + 0.5f, transform.position.y + 1.5f), Vector2.up, 0.5f);
+            RaycastHit2D up1 = Physics2D.Raycast(new Vector2(transform.position.x + 0.5f, transform.position.y + 1.5f), Vector2.up, 0.4f);
             if (up1.transform != null)
             {
                 up = true;
@@ -221,9 +221,9 @@ public class medicine : MonoBehaviour {
             {
                 up = false;
             }
-            up1 = Physics2D.Raycast(new Vector2(transform.position.x , transform.position.y), -Vector2.right, 0.5f);
-            RaycastHit2D up2 = Physics2D.Raycast(new Vector2(transform.position.x , transform.position.y + 1), -Vector2.right, 0.5f);
-            RaycastHit2D up3 = Physics2D.Raycast(new Vector2(transform.position.x , transform.position.y + 0.5f), -Vector2.right, 0.5f);
+            up1 = Physics2D.Raycast(new Vector2(transform.position.x , transform.position.y), -Vector2.right, 0.4f);
+            RaycastHit2D up2 = Physics2D.Raycast(new Vector2(transform.position.x , transform.position.y + 1), -Vector2.right, 0.4f);
+            RaycastHit2D up3 = Physics2D.Raycast(new Vector2(transform.position.x , transform.position.y + 0.5f), -Vector2.right, 0.4f);
             if ((up1.transform != null) || (up2.transform != null) || (up3.transform != null))
             {
                 left = true;
@@ -232,9 +232,9 @@ public class medicine : MonoBehaviour {
             {
                 left = false;
             }
-            up1 = Physics2D.Raycast(new Vector2(transform.position.x + 1, transform.position.y), Vector2.right, 0.5f);
-            up2 = Physics2D.Raycast(new Vector2(transform.position.x + 1, transform.position.y + 1), Vector2.right, 0.5f);
-            up3 = Physics2D.Raycast(new Vector2(transform.position.x + 1, transform.position.y + 0.5f), Vector2.right, 0.5f);
+            up1 = Physics2D.Raycast(new Vector2(transform.position.x + 1, transform.position.y), Vector2.right, 0.4f);
+            up2 = Physics2D.Raycast(new Vector2(transform.position.x + 1, transform.position.y + 1), Vector2.right, 0.4f);
+            up3 = Physics2D.Raycast(new Vector2(transform.position.x + 1, transform.position.y + 0.5f), Vector2.right, 0.4f);
             if ((up1.transform != null) || (up2.transform != null) || (up3.transform != null))
             {
                 right = true;
