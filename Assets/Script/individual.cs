@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 
 //This is the base class for all kind of tiles in game
@@ -21,6 +22,9 @@ public class individual : MonoBehaviour {
     public bool is_link;
     private SpriteRenderer spriteRenderer; 
     public Sprite[] color_sprite = new Sprite[5];
+    //a List use to error checking
+    public List<GameObject> checking = new List<GameObject>();
+
 
     void Start()
     {
@@ -110,8 +114,18 @@ public class individual : MonoBehaviour {
             {
                 if (down.tag == transform.tag)
                 {
-                   
-                    down.SendMessage("Check", 2);
+
+                    if (checking.Contains(down))
+                    {
+                        //Recursive, remove both
+                        Destroy(gameObject);
+                        Destroy(down);
+                    }
+                    else
+                    {
+                        checking.Add(down);
+                        down.SendMessage("Check", 2);
+                    }
                     if (up != null)
                     {
                         if (up.tag == transform.tag)
@@ -123,14 +137,40 @@ public class individual : MonoBehaviour {
             {
                 if (up.tag == transform.tag)
                 {
-                    up.SendMessage("Check",1);
+
+                    if (checking.Contains(up))
+                    {
+                        //Recursive, remove both
+                        Destroy(gameObject);
+                        Destroy(up);
+                    }
+                    else
+                    {
+                        checking.Add(up);
+                        up.SendMessage("Check", 1);
+                    }
+
+                   
                 }
             }
             if (right != null)
             {
                 if (right.tag == transform.tag)
                 {
-                    right.SendMessage("Check", 3);
+
+                    if (checking.Contains(right))
+                    {
+                        //Recursive, remove both
+                        Destroy(gameObject);
+                        Destroy(right);
+                    }
+                    else
+                    {
+                        checking.Add(right);
+                        right.SendMessage("Check", 3);
+                    }
+
+                   
                     if (left != null)
                     {
                         if (left.tag == transform.tag)
@@ -142,7 +182,17 @@ public class individual : MonoBehaviour {
             {
                 if (left.tag == transform.tag)
                 {
-                    left.SendMessage("Check", 4);
+                    if (checking.Contains(left))
+                    {
+                        //Recursive, remove both
+                        Destroy(gameObject);
+                        Destroy(left);
+                    }
+                    else
+                    {
+                        checking.Add(left);
+                        left.SendMessage("Check", 4);
+                    }
                 }
             }
            
@@ -155,8 +205,20 @@ public class individual : MonoBehaviour {
             {
                 if(up.tag == transform.tag)
                 {
-                    up.SendMessage("Check", 1);
-                    vertical = true;
+
+                    if (checking.Contains(up))
+                    {
+                        //Recursive, remove both
+                        Destroy(gameObject);
+                        Destroy(up);
+                    }
+                    else
+                    {
+                        checking.Add(up);
+                        up.SendMessage("Check", 1);
+                        vertical = true;
+                    }
+
                 }
             }
         }
@@ -168,8 +230,21 @@ public class individual : MonoBehaviour {
             {
                 if (down.tag == transform.tag)
                 {
-                    down.SendMessage("Check", 2);
-                    vertical = true;
+
+                    if (checking.Contains(down))
+                    {
+                        //Recursive, remove both
+                        Destroy(gameObject);
+                        Destroy(down);
+                    }
+                    else
+                    {
+                        checking.Add(down);
+                        down.SendMessage("Check", 2);
+                        vertical = true;
+                    }
+
+                   
                 }
             }
         }
@@ -181,8 +256,20 @@ public class individual : MonoBehaviour {
             {
                 if (right.tag == transform.tag)
                 {
-                    right.SendMessage("Check", 3);
-                    horizontal = true;
+
+                    if (checking.Contains(right))
+                    {
+                        //Recursive, remove both
+                        Destroy(gameObject);
+                        Destroy(right);
+                    }
+                    else
+                    {
+                        checking.Add(right);
+                        right.SendMessage("Check", 3);
+                        horizontal = true;
+                    }
+
                 }
             }
         }
@@ -194,8 +281,20 @@ public class individual : MonoBehaviour {
             {
                 if (left.tag == transform.tag)
                 {
-                    left.SendMessage("Check", 4);
-                    horizontal = true;
+
+                    if (checking.Contains(left))
+                    {
+                        //Recursive, remove both
+                        Destroy(gameObject);
+                        Destroy(left);
+                    }
+                    else
+                    {
+                        checking.Add(left);
+                        left.SendMessage("Check", 4);
+                        horizontal = true;
+                    }
+
                 }
             }
         }
@@ -213,9 +312,15 @@ public class individual : MonoBehaviour {
         }
         if(vertical || horizontal)
             Damaged_Loss(1);
-
+        StartCoroutine("DelayResetChecking");
     }
 
+
+    IEnumerator DelayResetChecking()
+    {
+        yield return new WaitForSeconds(1);
+        checking.Clear();
+    }
 
     void Damaged_Loss(int loss)
     {

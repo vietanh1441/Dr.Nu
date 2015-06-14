@@ -115,6 +115,144 @@ public class medicine : MonoBehaviour {
             if (transform.position.x > right_limit)
                 transform.position = new Vector3(right_limit - 0.5f, transform.position.y, transform.position.z);
         }
+
+        CheckSide();
+
+    }
+
+
+    void CheckSide()
+    {
+        if (state == 0 || state == 2)
+        {
+            RaycastHit2D up1 = Physics2D.Raycast(new Vector2(transform.position.x - 0.5f, transform.position.y + 0.5f), Vector2.up, 0.5f);
+            RaycastHit2D up2 = Physics2D.Raycast(new Vector2(transform.position.x + 0.5f, transform.position.y + 0.5f), Vector2.up, 0.5f);
+            if ((up1.transform != null) || (up2.transform != null))
+            {
+                up = true;
+
+            }
+            else
+            {
+                up = false;
+            }
+            up1 = Physics2D.Raycast(new Vector2(transform.position.x - 1f, transform.position.y), -Vector2.right, 0.5f);
+            if (up1.transform != null)
+            {
+                left = true;
+            }
+            else
+            {
+                left = false;
+            }
+            up1 = Physics2D.Raycast(new Vector2(transform.position.x + 1f, transform.position.y), Vector2.right, 0.5f);
+            if (up1.transform != null)
+            {
+                right = true;
+            }
+            else
+            {
+                right = false;
+            }
+            up1 = Physics2D.Raycast(new Vector2(transform.position.x - 0.5f, transform.position.y - 0.5f), -Vector2.up, 0.1f);
+            up2 = Physics2D.Raycast(new Vector2(transform.position.x + 0.5f, transform.position.y - 0.5f), -Vector2.up, 0.1f);
+            if ((up1.transform != null) || (up2.transform != null))
+            {
+                down = true;
+            }
+            else
+            {
+                down = false;
+            }
+        }
+
+        if(state == 1)
+        {
+            RaycastHit2D up1 = Physics2D.Raycast(new Vector2(transform.position.x - 0.5f, transform.position.y + 1.5f), Vector2.up, 0.5f);
+            if (up1.transform != null)
+            {
+                up = true;
+            }
+            else
+            {
+                up = false;
+            }
+            up1 = Physics2D.Raycast(new Vector2(transform.position.x -1, transform.position.y), -Vector2.right, 0.5f);
+            RaycastHit2D up2 = Physics2D.Raycast(new Vector2(transform.position.x -1, transform.position.y + 1), -Vector2.right, 0.5f);
+            RaycastHit2D up3 = Physics2D.Raycast(new Vector2(transform.position.x-1, transform.position.y + 0.5f), -Vector2.right, 0.5f);
+            if ((up1.transform != null) || (up2.transform != null)|| (up3.transform != null))
+            {
+                left = true;
+            }
+            else
+            {
+                left = false;
+            }
+            up1 = Physics2D.Raycast(new Vector2(transform.position.x , transform.position.y ), Vector2.right, 0.5f);
+            up2 = Physics2D.Raycast(new Vector2(transform.position.x , transform.position.y +1), Vector2.right, 0.5f);
+            up3 = Physics2D.Raycast(new Vector2(transform.position.x, transform.position.y + 0.5f), Vector2.right, 0.5f);
+            if ((up1.transform != null) || (up2.transform != null) || (up3.transform != null))
+            {
+                right = true;
+            }
+            else
+            {
+                right = false;
+            }
+            up1 = Physics2D.Raycast(new Vector2(transform.position.x - 0.5f, transform.position.y - 0.5f), -Vector2.up, 0.1f);
+            if(up1.transform != null)
+            {
+                down = true;
+            }
+            else
+            {
+                down = false;
+            }
+        }
+
+        if (state == 3)
+        {
+            RaycastHit2D up1 = Physics2D.Raycast(new Vector2(transform.position.x + 0.5f, transform.position.y + 1.5f), Vector2.up, 0.5f);
+            if (up1.transform != null)
+            {
+                up = true;
+            }
+            else
+            {
+                up = false;
+            }
+            up1 = Physics2D.Raycast(new Vector2(transform.position.x , transform.position.y), -Vector2.right, 0.5f);
+            RaycastHit2D up2 = Physics2D.Raycast(new Vector2(transform.position.x , transform.position.y + 1), -Vector2.right, 0.5f);
+            RaycastHit2D up3 = Physics2D.Raycast(new Vector2(transform.position.x , transform.position.y + 0.5f), -Vector2.right, 0.5f);
+            if ((up1.transform != null) || (up2.transform != null) || (up3.transform != null))
+            {
+                left = true;
+            }
+            else
+            {
+                left = false;
+            }
+            up1 = Physics2D.Raycast(new Vector2(transform.position.x + 1, transform.position.y), Vector2.right, 0.5f);
+            up2 = Physics2D.Raycast(new Vector2(transform.position.x + 1, transform.position.y + 1), Vector2.right, 0.5f);
+            up3 = Physics2D.Raycast(new Vector2(transform.position.x + 1, transform.position.y + 0.5f), Vector2.right, 0.5f);
+            if ((up1.transform != null) || (up2.transform != null) || (up3.transform != null))
+            {
+                right = true;
+            }
+            else
+            {
+                right = false;
+            }
+            up1 = Physics2D.Raycast(new Vector2(transform.position.x + 0.5f, transform.position.y - 0.5f), -Vector2.up, 0.1f);
+            if (up1.transform != null)
+            {
+                down = true;
+            }
+            else
+            {
+                down = false;
+            }
+        }
     }
 
     //direnction:   0 = Q = left
@@ -145,16 +283,14 @@ public class medicine : MonoBehaviour {
         //
         else if (state == 1)
         {
-            if (dir == 0 && !up)
+            if (dir == 0 && !right)
             {
-                //The right object move to top
                 state = 2;
        
 
             }
-            if (dir == 1 && !up)
+            if (dir == 1 && !right)
             {
-                //left object move to top
                 state = 0;
                
             }
@@ -182,14 +318,14 @@ public class medicine : MonoBehaviour {
         //In state that med 1 is on top of med 2 
         else if (state == 3)
         {
-            if (dir == 0 && !up)
+            if (dir == 0 && !left)
             {
                 //The right object move to top
                 state = 0;
                
 
             }
-            if (dir == 1 && !up)
+            if (dir == 1 && !left)
             {
                 //left object move to top
                 state = 2;
@@ -197,12 +333,15 @@ public class medicine : MonoBehaviour {
             }
         }
 
+        BoxCollider2D box = gameObject.GetComponent<BoxCollider2D>();
+
         if(state == 1)
         {
             med1.localPosition = new Vector3(-0.5f, 0, 0);
             med2.localPosition = new Vector3(-0.5f, 1, 0);
             left_limit = 36;
             right_limit = 47;
+            box.offset = new Vector2(-0.5f, -1);
         }
         else if (state == 2)
         {
@@ -211,6 +350,8 @@ public class medicine : MonoBehaviour {
 
             left_limit = 36;
             right_limit = 46;
+
+            box.offset = new Vector2(0, -1);
         }
         else if (state == 3)
         {
@@ -218,6 +359,7 @@ public class medicine : MonoBehaviour {
             med2.localPosition = new Vector3(0.5f, 0, 0);
             left_limit = 35;
             right_limit = 46;
+            box.offset = new Vector2(0.5f, -1);
         }
         else if (state == 0)
         {
@@ -225,9 +367,13 @@ public class medicine : MonoBehaviour {
             med2.localPosition = new Vector3(0.5f, 0, 0);
             left_limit = 36;
             right_limit = 46;
+
+            box.offset = new Vector2(0, -1);
         }
         med1.SendMessage("State", state);
         med2.SendMessage("State", state);
+        control = false;
+        StartCoroutine("Delay_control");
     }
 
 
@@ -237,25 +383,7 @@ public class medicine : MonoBehaviour {
     {
 
     }
-    void Up(bool sensor)
-    {
-        up = sensor;
-    }
-
-    void Down(bool sensor)
-    {
-        down = sensor;
-    }
-
-    void Right(bool sensor)
-    {
-        right = sensor;
-    }
-
-    void Left(bool sensor)
-    {
-        left = sensor;
-    }
+   
 
     void Break()
     {
