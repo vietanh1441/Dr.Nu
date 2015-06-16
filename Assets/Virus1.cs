@@ -1,9 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Drug : MonoBehaviour {
+public class Virus1 : MonoBehaviour
+{
     public GameObject right, left, up, down;
     public int color;
+    public int type;
     public GameObject central_obj;
     public central central_scr;
     public GameObject link;
@@ -11,15 +13,20 @@ public class Drug : MonoBehaviour {
     private SpriteRenderer spriteRenderer;
     public Sprite[] color_sprite = new Sprite[5];
 
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start()
+    {
         central_obj = GameObject.FindGameObjectWithTag("Central");
         central_scr = central_obj.GetComponent<central>();
         spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
-            spriteRenderer.sprite = color_sprite[0];   
+        if (type == 0)
+        {
+            spriteRenderer.sprite = color_sprite[0];
+        }
+        central_scr.AddVirus(gameObject);
         //First, use random to randomize the color. The maximum color will be based on GameManager
         Init_color();
-	}
+    }
 
     void Init_color()
     {
@@ -49,24 +56,7 @@ public class Drug : MonoBehaviour {
 
     void Update()
     {
-        CheckDown();
-        if ( is_link == false)
-        {
-            
         
-            if (down == null)
-            {
-                transform.Translate(0, -0.1f, 0);
-            }
-            else if (!is_link)
-            {
-                if (Mathf.Abs(transform.position.y - (int)transform.position.y) > 0.8)
-                    transform.position = new Vector3(transform.position.x, (int)transform.position.y + 1, transform.position.z);
-                if (Mathf.Abs((int)transform.position.y - transform.position.y) < 0.2)
-                    transform.position = new Vector3(transform.position.x, (int)transform.position.y, transform.position.z);
-            }
-        }
-
     }
 
     void Check(int dir)
@@ -185,39 +175,39 @@ public class Drug : MonoBehaviour {
             Damaged_Loss(1);
 
     }
-    
-     void Damaged_Loss(int loss)
-     {
-         Debug.Log("Call" + loss + transform.name);
-         Destroy(gameObject);
-     }
 
-     IEnumerator Delay()
-     {
+    void Damaged_Loss(int loss)
+    {
+        Debug.Log("Call" + loss + transform.name);
+        Destroy(gameObject);
+    }
 
-         yield return new WaitForSeconds(0.5f);
-         Check(0);
-     }
+    IEnumerator Delay()
+    {
+
+        yield return new WaitForSeconds(0.5f);
+        Check(0);
+    }
 
     void CheckAll()
-     {
-         CheckDown();
-         CheckLeft();
-         CheckRight();
-         CheckUp();
-     }
+    {
+        CheckDown();
+        CheckLeft();
+        CheckRight();
+        CheckUp();
+    }
 
     void CheckDown()
     {
-        RaycastHit2D up1 = Physics2D.Raycast(new Vector2(transform.position.x , transform.position.y - 0.5f), -Vector2.up, 0.1f);
+        RaycastHit2D up1 = Physics2D.Raycast(new Vector2(transform.position.x, transform.position.y - 0.5f), -Vector2.up, 0.1f);
         if (up1.transform != null)
         {
-            if(up1.transform.gameObject != down)
+            if (up1.transform.gameObject != down)
             {
                 down = up1.transform.gameObject;
                 StartCoroutine("Delay");
             }
-            
+
         }
         else
         {
@@ -227,11 +217,11 @@ public class Drug : MonoBehaviour {
 
     void CheckRight()
     {
-        RaycastHit2D up1 = Physics2D.Raycast(new Vector2(transform.position.x +0.5f, transform.position.y ), Vector2.right, 0.4f);
+        RaycastHit2D up1 = Physics2D.Raycast(new Vector2(transform.position.x + 0.5f, transform.position.y), Vector2.right, 0.4f);
         if (up1.transform != null)
         {
-            if(up1.transform.gameObject != right)
-           right = up1.transform.gameObject;
+            if (up1.transform.gameObject != right)
+                right = up1.transform.gameObject;
         }
         else
         {
@@ -245,7 +235,7 @@ public class Drug : MonoBehaviour {
         if (up1.transform != null)
         {
             if (up1.transform.gameObject != left)
-            left = up1.transform.gameObject;
+                left = up1.transform.gameObject;
         }
         else
         {
@@ -255,11 +245,11 @@ public class Drug : MonoBehaviour {
 
     void CheckUp()
     {
-        RaycastHit2D up1 = Physics2D.Raycast(new Vector2(transform.position.x , transform.position.y + 0.5f), Vector2.up, 0.4f);
+        RaycastHit2D up1 = Physics2D.Raycast(new Vector2(transform.position.x, transform.position.y + 0.5f), Vector2.up, 0.4f);
         if (up1.transform != null)
         {
             if (up1.transform.gameObject != up)
-            up = up1.transform.gameObject;
+                up = up1.transform.gameObject;
         }
         else
         {
@@ -278,10 +268,11 @@ public class Drug : MonoBehaviour {
 
     void OnDestroy()
     {
-      
-        if (transform.root != transform)
-            transform.parent.gameObject.SendMessage("Break");
-
+        if (type == 0)
+        {
+            central_scr.RemoveVirus(gameObject);
+        }
+        
     }
 
 
