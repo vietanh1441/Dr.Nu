@@ -5,12 +5,13 @@ using System.Collections.Generic;
 public class central : MonoBehaviour {
     public GameObject medi;
      public GameObject med1;
-
+     public int turnCount;
     //This will be based on each scene;
      public int level;
      public GameObject virus_gameObject;
     //List of virus
      public List<GameObject> virus = new List<GameObject>();
+     public List<GameObject> virus1 = new List<GameObject>();
      private List<Vector3> gridPositions = new List<Vector3>();
      private int virus1_count, virus2_count, virus3_count;
      private int speed;
@@ -20,12 +21,12 @@ public class central : MonoBehaviour {
 	void Start () {
         InitialiseList();
         virus.Clear();
-
+        virus1.Clear();
         //Generate Board
         Generate();
 
         GetSignal();
-        
+        turnCount = 0;
 	}
 
     public void AddVirus(GameObject other)
@@ -39,6 +40,16 @@ public class central : MonoBehaviour {
         CheckWin();
     }
 
+
+    public void AddVirus1(GameObject other)
+    {
+        virus1.Add(other);
+    }
+
+    public void RemoveVirus1(GameObject other)
+    {
+        virus1.Remove(other);
+    }
 
     void CheckWin()
     {
@@ -127,12 +138,13 @@ public class central : MonoBehaviour {
     //call when a medicine touch down, immediately send the listed medicine signal to be ready
     void GetSignal()
     {
+        NewTurn();
         //Send signal to the current med1
         med1.SendMessage("Ready");
 
         //Create a new gameobject at the show place and disable control
         med1 = (GameObject)Instantiate(medi, new Vector3(30.5f, 30, 0), Quaternion.identity);
-        medicine med_sc = med1.GetComponent<medicine>();
+        medicine_blitz med_sc = med1.GetComponent<medicine_blitz>();
         med_sc.control = false;
     }
 
@@ -141,4 +153,16 @@ public class central : MonoBehaviour {
 	void Update () {
 	
 	}
+
+
+    void NewTurn()
+    {
+        turnCount++;
+        Debug.Log(turnCount);
+        int i = 0;
+        for(i = 0; i < virus1.Count; i++)
+        {
+            virus1[i].SendMessage("TurnPlus");
+        }
+    }
 }

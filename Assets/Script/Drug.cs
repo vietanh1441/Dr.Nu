@@ -80,7 +80,6 @@ public class Drug : MonoBehaviour {
             {
                 if (down.tag == transform.tag)
                 {
-                    Debug.Log("Check");
                     down.SendMessage("Check", 2);
                     if (up != null)
                     {
@@ -188,7 +187,6 @@ public class Drug : MonoBehaviour {
     
      void Damaged_Loss(int loss)
      {
-         Debug.Log("Call" + loss + transform.name);
          Destroy(gameObject);
      }
 
@@ -216,6 +214,10 @@ public class Drug : MonoBehaviour {
             {
                 down = up1.transform.gameObject;
                 StartCoroutine("Delay");
+                if(is_link)
+                {
+                    link.SendMessage("More_Delay");
+                }
             }
             
         }
@@ -223,6 +225,11 @@ public class Drug : MonoBehaviour {
         {
             down = null;
         }
+    }
+
+    void More_Delay()
+    {
+        StartCoroutine("Delay");
     }
 
     void CheckRight()

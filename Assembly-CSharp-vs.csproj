@@ -46,13 +46,15 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\Drug.cs" />
+     <Compile Include="Assets\Script\Drug.cs" />
+     <Compile Include="Assets\Script\UIbutton.cs" />
+     <Compile Include="Assets\Script\Virus1.cs" />
      <Compile Include="Assets\Script\Wall.cs" />
      <Compile Include="Assets\Script\central.cs" />
      <Compile Include="Assets\Script\individual.cs" />
      <Compile Include="Assets\Script\medicine.cs" />
+     <Compile Include="Assets\Script\medicine_blitz.cs" />
      <Compile Include="Assets\Script\sensor.cs" />
-     <Compile Include="Assets\Virus1.cs" />
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>

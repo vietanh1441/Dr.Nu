@@ -11,6 +11,7 @@ public class Virus1 : MonoBehaviour
     public GameObject link;
     public bool is_link;
     private SpriteRenderer spriteRenderer;
+    public int turnCount;
     public Sprite[] color_sprite = new Sprite[5];
 
     // Use this for initialization
@@ -24,6 +25,10 @@ public class Virus1 : MonoBehaviour
             spriteRenderer.sprite = color_sprite[0];
         }
         central_scr.AddVirus(gameObject);
+        if(type == 1)
+        {
+            central_scr.AddVirus1(gameObject);
+        }
         //First, use random to randomize the color. The maximum color will be based on GameManager
         Init_color();
     }
@@ -178,7 +183,11 @@ public class Virus1 : MonoBehaviour
 
     void Damaged_Loss(int loss)
     {
-        Debug.Log("Call" + loss + transform.name);
+        central_scr.RemoveVirus(gameObject);
+        if(type == 1)
+        {
+            central_scr.RemoveVirus1(gameObject);
+        }
         Destroy(gameObject);
     }
 
@@ -265,6 +274,60 @@ public class Virus1 : MonoBehaviour
 
     }
 
+    void TurnPlus()
+    {
+        turnCount++;
+        if(type == 1)
+        if(turnCount % 3 == 0)
+        {
+            DoVirusStuff1();
+        }
+        //Here if virus type is different, do according stuff
+    }
+
+    void DoVirusStuff1()
+    {
+        //The virus randomly move right or left
+        //First get random direction
+        //then check for that direction, if doesn't work, check the other
+        //if both doesn't work, don't move
+
+        int move = 0;
+        RaycastHit2D right = Physics2D.Raycast(new Vector2(transform.position.x + 0.5f, transform.position.y), Vector2.right, 0.4f);
+        RaycastHit2D left = Physics2D.Raycast(new Vector2(transform.position.x - 0.5f, transform.position.y), -Vector2.right, 0.4f);
+        int rand = Random.Range(0, 2);
+        if (rand == 0)
+        {
+            if (right.transform == null)
+            {
+                move = 1;
+            }
+            else if (left.transform == null)
+            {
+                move = -1;
+            }
+            else
+            {
+                move = 0;
+            }
+        }
+        else
+        {
+            if (left.transform == null)
+            {
+                move = -1;
+            }
+            else if (right.transform == null)
+            {
+                move = 1;
+            }
+            else
+            {
+                move = 0;
+            }
+        }
+        transform.Translate(move, 0, 0);
+    }
 
     void OnDestroy()
     {
