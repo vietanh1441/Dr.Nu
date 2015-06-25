@@ -10,8 +10,9 @@ public class Virus1 : MonoBehaviour
     public central central_scr;
     public GameObject link;
     public bool is_link;
+    public GameObject virus_gameObject;
     private SpriteRenderer spriteRenderer;
-    public int turnCount;
+    public int turnCount, countdown;
     public Sprite[] color_sprite = new Sprite[5];
 
     // Use this for initialization
@@ -20,14 +21,21 @@ public class Virus1 : MonoBehaviour
         central_obj = GameObject.FindGameObjectWithTag("Central");
         central_scr = central_obj.GetComponent<central>();
         spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
+        central_scr.AddVirus(gameObject);
         if (type == 0)
         {
             spriteRenderer.sprite = color_sprite[0];
         }
-        central_scr.AddVirus(gameObject);
+        spriteRenderer.sprite = color_sprite[0];
         if(type == 1)
         {
             central_scr.AddVirus1(gameObject);
+        }
+        if(type ==2)
+        {
+            Instantiate(virus_gameObject, new Vector3(transform.position.x, transform.position.y + 1, transform.position.z), Quaternion.identity);
+            central_scr.AddVirus1(gameObject);
+            countdown = 2;
         }
         //First, use random to randomize the color. The maximum color will be based on GameManager
         Init_color();
@@ -183,11 +191,7 @@ public class Virus1 : MonoBehaviour
 
     void Damaged_Loss(int loss)
     {
-        central_scr.RemoveVirus(gameObject);
-        if(type == 1)
-        {
-            central_scr.RemoveVirus1(gameObject);
-        }
+        
         Destroy(gameObject);
     }
 
@@ -277,12 +281,42 @@ public class Virus1 : MonoBehaviour
     void TurnPlus()
     {
         turnCount++;
-        if(type == 1)
-        if(turnCount % 3 == 0)
+
+        if (type == 1)
         {
-            DoVirusStuff1();
+            if (turnCount % 3 == 0)
+            {
+                DoVirusStuff1();
+            }
+        }
+        if(type == 2)
+        {
+            DoVirusStuff2();
         }
         //Here if virus type is different, do according stuff
+    }
+
+    void DoVirusStuff2()
+    {
+        
+
+        //Check if there is anything on top
+        RaycastHit2D up = Physics2D.Raycast(new Vector2(transform.position.x , transform.position.y + 0.5f), Vector2.up, 0.4f);
+        if(up.transform != null)
+        {
+            countdown = 2;
+        }
+        else
+        {
+            countdown--;
+        }
+
+        if(countdown == 0)
+        {
+            Instantiate(virus_gameObject, new Vector3(transform.position.x, transform.position.y + 1, transform.position.z), Quaternion.identity);
+        }
+        //If not start countdown
+
     }
 
     void DoVirusStuff1()
@@ -331,11 +365,16 @@ public class Virus1 : MonoBehaviour
 
     void OnDestroy()
     {
-        if (type == 0)
-        {
             central_scr.RemoveVirus(gameObject);
-        }
         
+        if (type == 1)
+        {
+            central_scr.RemoveVirus1(gameObject);
+        }
+        if(type == 2)
+        {
+            central_scr.RemoveVirus1(gameObject);
+        }
     }
 
 
