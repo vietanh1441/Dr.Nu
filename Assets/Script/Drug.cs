@@ -69,9 +69,94 @@ public class Drug : MonoBehaviour {
 
     }
 
-    void Check(int dir)
+    void GoLeft()
     {
-        bool vertical = false;
+        CheckAll();
+        if(left != null && left.tag == transform.tag)
+        {
+                left.SendMessage("GoLeft");
+            
+        }
+
+        else
+        {
+            GoRight(0);
+        }
+    }
+
+    void GoRight(int num)
+    {
+        CheckAll();
+        if(right != null && right.tag == transform.tag)
+        {
+            
+                right.SendMessage("GoRight", num + 1);
+        }
+        else
+        {
+            if(num > 1)
+            {
+                DoMatchVert(num);
+            }
+        }
+    }
+
+    void DoMatchVert(int num)
+    {
+        if (num != 0)
+        {
+            left.SendMessage("DoMatchVert", num - 1);
+        }
+        Damaged_Loss(1);
+    }
+
+    void GoUp()
+    {
+        CheckAll();
+        if (up != null && up.tag == transform.tag)
+        {
+            up.SendMessage("GoUp");
+
+        }
+
+        else
+        {
+            GoDown(0);
+        }
+    }
+
+    void GoDown(int num)
+    {
+        CheckAll();
+        if (down != null && down.tag == transform.tag)
+        {
+
+            down.SendMessage("GoDown", num + 1);
+        }
+        else
+        {
+            if (num > 1)
+            {
+                DoMatchHor(num);
+            }
+        }
+    }
+
+    void DoMatchHor(int num)
+    {
+        if (num != 0)
+        {
+            up.SendMessage("DoMatchHor", num - 1);
+        }
+        Damaged_Loss(1);
+    }
+
+    void Check()
+    {
+        CheckAll();
+        GoLeft();
+        GoUp();
+       /* bool vertical = false;
         bool horizontal = false;
         CheckAll();
         if (dir == 0)
@@ -182,6 +267,7 @@ public class Drug : MonoBehaviour {
         }
         if (vertical || horizontal)
             Damaged_Loss(1);
+         */
 
     }
     
@@ -194,7 +280,7 @@ public class Drug : MonoBehaviour {
      {
 
          yield return new WaitForSeconds(0.5f);
-         Check(0);
+         Check();
      }
 
     void CheckAll()

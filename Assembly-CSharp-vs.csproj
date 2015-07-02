@@ -46,18 +46,9 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\Level Menu 2D\Plugins\Pixelplacement\iTween\iTween.cs" />
-     <Compile Include="Assets\Level Menu 2D\Scripts\ClickTouchScript.cs" />
-     <Compile Include="Assets\Level Menu 2D\Scripts\Demo Scripts\ABClickScript.cs" />
-     <Compile Include="Assets\Level Menu 2D\Scripts\Demo Scripts\AutoInitScript.cs" />
-     <Compile Include="Assets\Level Menu 2D\Scripts\Demo Scripts\BackToMenuScript.cs" />
-     <Compile Include="Assets\Level Menu 2D\Scripts\Demo Scripts\ColorSwitcherScript.cs" />
-     <Compile Include="Assets\Level Menu 2D\Scripts\Demo Scripts\DemoSelectorClicker.cs" />
-     <Compile Include="Assets\Level Menu 2D\Scripts\Demo Scripts\SwipeDetector.cs" />
-     <Compile Include="Assets\Level Menu 2D\Scripts\Demo Scripts\TRClicker.cs" />
-     <Compile Include="Assets\Level Menu 2D\Scripts\Demo Scripts\VerticalDemoClicker.cs" />
-     <Compile Include="Assets\Level Menu 2D\Scripts\LevelMenu2D.cs" />
-     <Compile Include="Assets\Level Menu 2D\SingletonPerfect\Singleton.cs" />
+     <Compile Include="Assets\Buttontemp.cs" />
+     <Compile Include="Assets\GameManager.cs" />
+     <Compile Include="Assets\Script\Base.cs" />
      <Compile Include="Assets\Script\Drug.cs" />
      <Compile Include="Assets\Script\UIbutton.cs" />
      <Compile Include="Assets\Script\Virus1.cs" />
@@ -74,6 +65,10 @@
  <Reference Include="UnityEditor.iOS.Extensions.Xcode">
  <HintPath>C:/Program Files/Unity/Editor/Data/PlaybackEngines/iossupport/UnityEditor.iOS.Extensions.Xcode.dll</HintPath>
  </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="Assembly-CSharp-firstpass-vs.csproj">
+      <Project>{0AD7C44A-5EF8-3CE4-3D67-6D09C774412F}</Project>      <Name>Assembly-CSharp-firstpass-vs</Name>    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

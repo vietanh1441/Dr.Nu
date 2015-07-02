@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.UI;
+
 
 public class central : MonoBehaviour {
     public GameObject medi;
@@ -16,6 +18,9 @@ public class central : MonoBehaviour {
      private int virus1_count, virus2_count, virus3_count;
      private int speed;
      private int timer;
+     public GameObject UI1, UI2, UI3, UI4;
+     public GameObject TimeUI;
+     public int time;
     //public GameObject med2;
 	// Use this for initialization
 	void Start () {
@@ -27,6 +32,8 @@ public class central : MonoBehaviour {
 
         GetSignal();
         turnCount = 0;
+
+        StartCountDown();
 	}
 
     public void AddVirus(GameObject other)
@@ -58,10 +65,51 @@ public class central : MonoBehaviour {
             Winning();
         }
     }
-
+    void Update()
+    {
+        //If player click escape, enable the canvas, pause time
+        Text text = TimeUI.GetComponent<Text>();
+        text.text = "Time: " + time;
+        if (Input.GetKey(KeyCode.Escape))
+        {
+            Time.timeScale = 0;
+            UI1.SetActive(true);
+            UI2.SetActive(true);
+            UI3.SetActive(true);
+            UI4.SetActive(true);
+        }
+        if (time == 0)
+        {
+            Losing();
+        }
+    }
     void Winning()
     {
-        Debug.Log("Win");
+        Time.timeScale = 0;
+        UI1.SetActive(true);
+        //UI2.SetActive(true);
+        UI3.SetActive(true);
+        UI4.SetActive(true);
+    }
+
+    void Losing()
+    {
+        Time.timeScale = 0;
+        UI1.SetActive(true);
+       // UI2.SetActive(true);
+        UI3.SetActive(true);
+        UI4.SetActive(true);
+    }
+
+    public void Continue()
+    {
+        //if player click continue, continue the game and set inactive the UI
+
+        Time.timeScale = 1;
+        UI1.SetActive(false);
+        UI2.SetActive(false);
+        UI3.SetActive(false);
+        UI4.SetActive(false);
     }
     void InitialiseList()
     {
@@ -89,6 +137,18 @@ public class central : MonoBehaviour {
         }
     }
 
+    public void StartCountDown()
+    {
+       
+            InvokeRepeating("decreaseTimeRemaining", 1.0f, 1.0f);
+     
+
+    }
+
+    void decreaseTimeRemaining()
+    {
+        time--;
+    }
 
     //RandomPosition returns a random position from our list gridPositions.
     Vector3 RandomPosition()
@@ -150,10 +210,11 @@ public class central : MonoBehaviour {
 
 
 	// Update is called once per frame
-	void Update () {
 	
-	}
 
+  
+
+  
 
     void NewTurn()
     {

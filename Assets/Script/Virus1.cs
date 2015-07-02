@@ -72,120 +72,205 @@ public class Virus1 : MonoBehaviour
         
     }
 
-    void Check(int dir)
+    void GoLeft()
     {
-        bool vertical = false;
-        bool horizontal = false;
         CheckAll();
-        if (dir == 0)
+        if (left != null && left.tag == transform.tag)
         {
-            if (down != null)
-            {
-                if (down.tag == transform.tag)
-                {
-                    Debug.Log("Check");
-                    down.SendMessage("Check", 2);
-                    if (up != null)
-                    {
-                        if (up.tag == transform.tag)
-                            vertical = true;
-                    }
-                }
-            }
-            if (up != null)
-            {
-                if (up.tag == transform.tag)
-                {
-                    up.SendMessage("Check", 1);
-                }
-            }
-            if (right != null)
-            {
-                if (right.tag == transform.tag)
-                {
-                    right.SendMessage("Check", 3);
-                    if (left != null)
-                    {
-                        if (left.tag == transform.tag)
-                            horizontal = true;
-                    }
-                }
-            }
-            if (left != null)
-            {
-                if (left.tag == transform.tag)
-                {
-                    left.SendMessage("Check", 4);
-                }
-            }
+            left.SendMessage("GoLeft");
 
         }
 
-        //Check up
-        if (dir == 1)
+        else
         {
-            if (up != null)
+            GoRight(0);
+        }
+    }
+
+    void GoRight(int num)
+    {
+        CheckAll();
+        if (right != null && right.tag == transform.tag)
+        {
+
+            right.SendMessage("GoRight", num + 1);
+        }
+        else
+        {
+            if (num > 1)
             {
-                if (up.tag == transform.tag)
-                {
-                    up.SendMessage("Check", 1);
-                    vertical = true;
-                }
+                DoMatchVert(num);
             }
         }
+    }
 
-        //Check down
-        if (dir == 2)
+    void DoMatchVert(int num)
+    {
+        if (num != 0)
         {
-            if (down != null)
+            left.SendMessage("DoMatchVert", num - 1);
+        }
+        Damaged_Loss(1);
+    }
+
+    void GoUp()
+    {
+        CheckAll();
+        if (up != null && up.tag == transform.tag)
+        {
+            up.SendMessage("GoUp");
+
+        }
+
+        else
+        {
+            GoDown(0);
+        }
+    }
+
+    void GoDown(int num)
+    {
+        CheckAll();
+        if (down != null && down.tag == transform.tag)
+        {
+
+            down.SendMessage("GoDown", num + 1);
+        }
+        else
+        {
+            if (num > 1)
             {
-                if (down.tag == transform.tag)
-                {
-                    down.SendMessage("Check", 2);
-                    vertical = true;
-                }
+                DoMatchHor(num);
             }
         }
+    }
 
-        //Check right
-        if (dir == 3)
+    void DoMatchHor(int num)
+    {
+        if (num != 0)
         {
-            if (right != null)
-            {
-                if (right.tag == transform.tag)
-                {
-                    right.SendMessage("Check", 3);
-                    horizontal = true;
-                }
-            }
+            up.SendMessage("DoMatchHor", num - 1);
         }
+        Damaged_Loss(1);
+    }
 
-        //Check left
-        if (dir == 4)
-        {
-            if (left != null)
-            {
-                if (left.tag == transform.tag)
-                {
-                    left.SendMessage("Check", 4);
-                    horizontal = true;
-                }
-            }
-        }
+    void Check()
+    {
+        CheckAll();
+        GoLeft();
+        GoUp();
+        /* bool vertical = false;
+         bool horizontal = false;
+         CheckAll();
+         if (dir == 0)
+         {
+             if (down != null)
+             {
+                 if (down.tag == transform.tag)
+                 {
+                     down.SendMessage("Check", 2);
+                     if (up != null)
+                     {
+                         if (up.tag == transform.tag)
+                             vertical = true;
+                     }
+                 }
+             }
+             if (up != null)
+             {
+                 if (up.tag == transform.tag)
+                 {
+                     up.SendMessage("Check", 1);
+                 }
+             }
+             if (right != null)
+             {
+                 if (right.tag == transform.tag)
+                 {
+                     right.SendMessage("Check", 3);
+                     if (left != null)
+                     {
+                         if (left.tag == transform.tag)
+                             horizontal = true;
+                     }
+                 }
+             }
+             if (left != null)
+             {
+                 if (left.tag == transform.tag)
+                 {
+                     left.SendMessage("Check", 4);
+                 }
+             }
 
-        if (vertical == true)
-        {
-            down.SendMessage("Damaged_Loss", 1);
-            up.SendMessage("Damaged_Loss", 1);
+         }
 
-        }
-        if (horizontal == true)
-        {
-            right.SendMessage("Damaged_Loss", 1);
-            left.SendMessage("Damaged_Loss", 1);
-        }
-        if (vertical || horizontal)
-            Damaged_Loss(1);
+         //Check up
+         if (dir == 1)
+         {
+             if (up != null)
+             {
+                 if (up.tag == transform.tag)
+                 {
+                     up.SendMessage("Check", 1);
+                     vertical = true;
+                 }
+             }
+         }
+
+         //Check down
+         if (dir == 2)
+         {
+             if (down != null)
+             {
+                 if (down.tag == transform.tag)
+                 {
+                     down.SendMessage("Check", 2);
+                     vertical = true;
+                 }
+             }
+         }
+
+         //Check right
+         if (dir == 3)
+         {
+             if (right != null)
+             {
+                 if (right.tag == transform.tag)
+                 {
+                     right.SendMessage("Check", 3);
+                     horizontal = true;
+                 }
+             }
+         }
+
+         //Check left
+         if (dir == 4)
+         {
+             if (left != null)
+             {
+                 if (left.tag == transform.tag)
+                 {
+                     left.SendMessage("Check", 4);
+                     horizontal = true;
+                 }
+             }
+         }
+
+         if (vertical == true)
+         {
+             down.SendMessage("Damaged_Loss", 1);
+             up.SendMessage("Damaged_Loss", 1);
+
+         }
+         if (horizontal == true)
+         {
+             right.SendMessage("Damaged_Loss", 1);
+             left.SendMessage("Damaged_Loss", 1);
+         }
+         if (vertical || horizontal)
+             Damaged_Loss(1);
+          */
 
     }
 
@@ -199,7 +284,7 @@ public class Virus1 : MonoBehaviour
     {
 
         yield return new WaitForSeconds(0.5f);
-        Check(0);
+        Check();
     }
 
     void CheckAll()
