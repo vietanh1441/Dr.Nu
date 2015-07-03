@@ -99,6 +99,7 @@ public class Virus1 : MonoBehaviour
         {
             if (num > 1)
             {
+                central_obj.SendMessage("Scoring", num);
                 DoMatchVert(num);
             }
         }
@@ -140,6 +141,7 @@ public class Virus1 : MonoBehaviour
         {
             if (num > 1)
             {
+                central_obj.SendMessage("Scoring", num);
                 DoMatchHor(num);
             }
         }

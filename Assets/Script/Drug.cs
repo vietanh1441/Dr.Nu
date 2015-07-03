@@ -96,6 +96,7 @@ public class Drug : MonoBehaviour {
         {
             if(num > 1)
             {
+                central_obj.SendMessage("Scoring", num);
                 DoMatchVert(num);
             }
         }
@@ -107,6 +108,7 @@ public class Drug : MonoBehaviour {
         {
             left.SendMessage("DoMatchVert", num - 1);
         }
+        
         Damaged_Loss(1);
     }
 
@@ -137,6 +139,7 @@ public class Drug : MonoBehaviour {
         {
             if (num > 1)
             {
+                central_obj.SendMessage("Scoring", num);
                 DoMatchHor(num);
             }
         }

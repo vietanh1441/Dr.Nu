@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class central : MonoBehaviour {
     public GameObject medi;
-     public GameObject med1;
+     public GameObject med1, current_med, temp;
      public int turnCount;
     //This will be based on each scene;
      public int level;
@@ -21,6 +21,11 @@ public class central : MonoBehaviour {
      public GameObject UI1, UI2, UI3, UI4;
      public GameObject TimeUI;
      public int time;
+     public int score;
+     public int multiply;
+     private bool did_score;
+     public int game_mode;
+     private GameObject store_place;
     //public GameObject med2;
 	// Use this for initialization
 	void Start () {
@@ -29,12 +34,20 @@ public class central : MonoBehaviour {
         virus1.Clear();
         //Generate Board
         Generate();
-
+        did_score = false;
         GetSignal();
         turnCount = 0;
-
-        StartCountDown();
+        multiply = 1;
+        score = 0;
+        InitialiseGameMode();
+        
 	}
+
+    void InitialiseGameMode()
+    {
+        if (game_mode == 1)
+            StartCountDown();
+    }
 
     public void AddVirus(GameObject other)
     {
@@ -81,6 +94,10 @@ public class central : MonoBehaviour {
         if (time == 0)
         {
             Losing();
+        }
+        if(Input.GetKeyDown(KeyCode.Space))
+        {
+            Store();
         }
     }
     void Winning()
@@ -201,18 +218,56 @@ public class central : MonoBehaviour {
         NewTurn();
         //Send signal to the current med1
         med1.SendMessage("Ready");
-
+        current_med = med1;
         //Create a new gameobject at the show place and disable control
         med1 = (GameObject)Instantiate(medi, new Vector3(30.5f, 30, 0), Quaternion.identity);
         medicine_blitz med_sc = med1.GetComponent<medicine_blitz>();
         med_sc.control = false;
     }
 
+    void Store()
+    {
+        //First, check if store space is empty
+        if(store_place == null)
+        {
+            Debug.Log(store_place);
+            //If empty, store the current medicine to right place, and turn off ready and control
+            current_med.SendMessage("Store");
+            store_place = current_med;
+            //store_place = current_med;
+            med1.SendMessage("Ready");
+            current_med = med1;
+            //Create a new gameobject at the show place and disable control
+            med1 = (GameObject)Instantiate(medi, new Vector3(30.5f, 30, 0), Quaternion.identity);
+            medicine_blitz med_sc = med1.GetComponent<medicine_blitz>();
+            med_sc.control = false;
+        }
+        else
+        {
+            current_med.SendMessage("Store");
+            temp = store_place;
+            store_place = current_med;
+            current_med = temp;
+            current_med.SendMessage("Ready");
+        }
+        
 
+
+        //Do GetSignal without making new turn()
+
+
+        //Else, switch place between the current and store
+    }
 	// Update is called once per frame
 	
 
-  
+  public void Scoring(int num)
+  {
+      Debug.Log("Score");
+      score = score+ num * multiply;
+      multiply++;
+      did_score = true;
+  }
 
   
 
@@ -224,6 +279,15 @@ public class central : MonoBehaviour {
         for(i = 0; i < virus1.Count; i++)
         {
             virus1[i].SendMessage("TurnPlus");
+        }
+        if(did_score)
+        {
+            did_score = false;
+        }
+        else
+        {
+            if (multiply > 1)
+                multiply--;
         }
     }
 }

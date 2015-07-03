@@ -46,6 +46,14 @@ public class medicine_blitz : MonoBehaviour {
         ready = true;
     }
 
+    void Store()
+    {
+        transform.position = new Vector3(55.5f, 30, 0);
+
+        control = false;
+        ready = false;
+    }
+
     // Update is called once per frame
     void Update()
     {
