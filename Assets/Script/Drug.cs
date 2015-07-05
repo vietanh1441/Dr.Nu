@@ -23,7 +23,8 @@ public class Drug : MonoBehaviour {
 
     void Init_color()
     {
-        color = Random.Range(0, 4);
+        int color_num = central_scr.color;
+        color = Random.Range(0, color_num);
         if (color == 0)
         {
             transform.tag = "Yellow";
@@ -43,6 +44,11 @@ public class Drug : MonoBehaviour {
         {
             transform.tag = "Green";
             spriteRenderer.color = Color.green;
+        }
+        if(color== 4)
+        {
+            transform.tag = "Gray";
+            spriteRenderer.color = Color.gray;
         }
 
     }
@@ -156,6 +162,12 @@ public class Drug : MonoBehaviour {
 
     void Check()
     {
+        //Check if its position is bigger than deadzone, if it does, then send central game over
+        if(transform.position.y > 35)
+        {
+            central_scr.Losing();
+        }
+
         CheckAll();
         GoLeft();
         GoUp();
@@ -276,6 +288,11 @@ public class Drug : MonoBehaviour {
     
      void Damaged_Loss(int loss)
      {
+         if (transform.root != transform)
+         {
+             if (transform.root != null)
+                 transform.parent.gameObject.SendMessage("Break");
+         }
          Destroy(gameObject);
      }
 
@@ -302,10 +319,15 @@ public class Drug : MonoBehaviour {
             if(up1.transform.gameObject != down)
             {
                 down = up1.transform.gameObject;
+                if(!is_link)
                 StartCoroutine("Delay");
-                if(is_link)
+                else if(is_link)
                 {
-                    link.SendMessage("More_Delay");
+                    if (down != link)
+                    {
+                        link.SendMessage("More_Delay");
+                        StartCoroutine("Delay");
+                    }
                 }
             }
             
@@ -374,9 +396,8 @@ public class Drug : MonoBehaviour {
 
     void OnDestroy()
     {
-      
-        if (transform.root != transform)
-            transform.parent.gameObject.SendMessage("Break");
+
+        
 
     }
 

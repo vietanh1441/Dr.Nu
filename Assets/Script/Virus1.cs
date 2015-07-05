@@ -14,10 +14,12 @@ public class Virus1 : MonoBehaviour
     private SpriteRenderer spriteRenderer;
     public int turnCount, countdown;
     public Sprite[] color_sprite = new Sprite[5];
+    public int hp;
 
     // Use this for initialization
     void Start()
     {
+        hp = 1;
         central_obj = GameObject.FindGameObjectWithTag("Central");
         central_scr = central_obj.GetComponent<central>();
         spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
@@ -27,15 +29,27 @@ public class Virus1 : MonoBehaviour
             spriteRenderer.sprite = color_sprite[0];
         }
         spriteRenderer.sprite = color_sprite[0];
+
+        //Virus 1 randomly move right or left
         if(type == 1)
         {
+
             central_scr.AddVirus1(gameObject);
         }
+
+        //Virus 2 spawn a child on its head
         if(type ==2)
         {
-            Instantiate(virus_gameObject, new Vector3(transform.position.x, transform.position.y + 1, transform.position.z), Quaternion.identity);
+            //Instantiate(virus_gameObject, new Vector3(transform.position.x, transform.position.y + 1, transform.position.z), Quaternion.identity);
             central_scr.AddVirus1(gameObject);
             countdown = 2;
+        }
+        //Boss
+        if(type == 100)
+        {
+            hp = 5;
+            central_scr.AddBoss(gameObject);
+            central_scr.AddVirus1(gameObject);
         }
         //First, use random to randomize the color. The maximum color will be based on GameManager
         Init_color();
@@ -43,7 +57,8 @@ public class Virus1 : MonoBehaviour
 
     void Init_color()
     {
-        color = Random.Range(0, 4);
+        int color_num = central_scr.color;
+        color = Random.Range(0, color_num);
         if (color == 0)
         {
             transform.tag = "Yellow";
@@ -63,6 +78,11 @@ public class Virus1 : MonoBehaviour
         {
             transform.tag = "Green";
             spriteRenderer.color = Color.green;
+        }
+        if (color == 4)
+        {
+            transform.tag = "Gray";
+            spriteRenderer.color = Color.gray;
         }
 
     }
@@ -278,8 +298,11 @@ public class Virus1 : MonoBehaviour
 
     void Damaged_Loss(int loss)
     {
-        
-        Destroy(gameObject);
+        hp = hp - loss;
+        if (hp <= 0)
+        {
+            Destroy(gameObject);
+        }
     }
 
     IEnumerator Delay()
@@ -460,6 +483,11 @@ public class Virus1 : MonoBehaviour
         }
         if(type == 2)
         {
+            central_scr.RemoveVirus1(gameObject);
+        }
+        if(type == 100)
+        {
+            central_scr.RemoveBoss(gameObject);
             central_scr.RemoveVirus1(gameObject);
         }
     }

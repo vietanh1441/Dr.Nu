@@ -10,19 +10,21 @@ public class central : MonoBehaviour {
      public int turnCount;
     //This will be based on each scene;
      public int level;
-     public GameObject virus_gameObject;
+     public GameObject virus_gameObject, virus1_gameObject, virus2_gameObject;
     //List of virus
-     public List<GameObject> virus = new List<GameObject>();
-     public List<GameObject> virus1 = new List<GameObject>();
+     private List<GameObject> virus = new List<GameObject>();
+     private List<GameObject> virus1 = new List<GameObject>();
+     private List<GameObject> boss = new List<GameObject>();
      private List<Vector3> gridPositions = new List<Vector3>();
-     private int virus1_count, virus2_count, virus3_count;
-     private int speed;
-     private int timer;
-     public GameObject UI1, UI2, UI3, UI4;
+     public int virus1_count, virus2_count, virus3_count;
+     public int speed;
+     public GameObject UI1, UI2, UI3, UI4, UI5;
      public GameObject TimeUI;
      public int time;
-     public int score;
-     public int multiply;
+     public int turn_down;
+     private int score;
+     public int color;
+     private int multiply;
      private bool did_score;
      public int game_mode;
      private GameObject store_place;
@@ -40,13 +42,25 @@ public class central : MonoBehaviour {
         multiply = 1;
         score = 0;
         InitialiseGameMode();
-        
+        Time.timeScale = 0;
+        UI2.SetActive(true);
 	}
 
     void InitialiseGameMode()
     {
         if (game_mode == 1)
+        {
             StartCountDown();
+            //Deal with UI
+        }
+        if(game_mode == 2)
+        {
+            //Deal with UI
+        }
+        if(game_mode == 3)
+        {
+            //Deal with UI
+        }
     }
 
     public void AddVirus(GameObject other)
@@ -66,6 +80,16 @@ public class central : MonoBehaviour {
         virus1.Add(other);
     }
 
+    public void AddBoss(GameObject other)
+    {
+        boss.Add(other);
+    }
+
+    public void RemoveBoss(GameObject other)
+    {
+        boss.Remove(other);
+    }
+
     public void RemoveVirus1(GameObject other)
     {
         virus1.Remove(other);
@@ -73,6 +97,13 @@ public class central : MonoBehaviour {
 
     void CheckWin()
     {
+        if(game_mode == 3)
+        {
+            if(boss.Count == 0)
+            {
+                Winning();
+            }
+        }
         if(virus.Count == 0)
         {
             Winning();
@@ -82,6 +113,7 @@ public class central : MonoBehaviour {
     {
         //If player click escape, enable the canvas, pause time
         Text text = TimeUI.GetComponent<Text>();
+        
         text.text = "Time: " + time;
         if (Input.GetKey(KeyCode.Escape))
         {
@@ -107,9 +139,10 @@ public class central : MonoBehaviour {
         //UI2.SetActive(true);
         UI3.SetActive(true);
         UI4.SetActive(true);
+        UI5.SetActive(true);
     }
 
-    void Losing()
+    public void Losing()
     {
         Time.timeScale = 0;
         UI1.SetActive(true);
@@ -144,14 +177,7 @@ public class central : MonoBehaviour {
             }
         }
 
-        if(level == 1)
-        {
-            virus1_count = 5;
-            virus2_count = 0;
-            virus3_count = 0;
-            speed = 5;
-            timer = 120;
-        }
+        
     }
 
     public void StartCountDown()
@@ -161,6 +187,8 @@ public class central : MonoBehaviour {
      
 
     }
+
+   
 
     void decreaseTimeRemaining()
     {
@@ -190,9 +218,9 @@ public class central : MonoBehaviour {
 
       
             //Set number of virus for each type
-            int objectCount = 5;
+            
 
-            for (int i = 0; i < objectCount; i++)
+            for (int i = 0; i < virus1_count; i++)
             {
                 //Choose a position for randomPosition by getting a random position from our list of available Vector3s stored in gridPosition
                 Vector3 randomPosition = RandomPosition();
@@ -203,7 +231,30 @@ public class central : MonoBehaviour {
                 //Instantiate tileChoice at the position returned by RandomPosition with no change in rotation
                 Instantiate(virus_gameObject, randomPosition, Quaternion.identity);
             }
-            
+
+            for (int i = 0; i < virus2_count; i++)
+            {
+                //Choose a position for randomPosition by getting a random position from our list of available Vector3s stored in gridPosition
+                Vector3 randomPosition = RandomPosition();
+
+                //Choose a random tile from tileArray and assign it to tileChoice
+                //GameObject tileChoice = tileArray[Random.Range(0, tileArray.Length)];
+
+                //Instantiate tileChoice at the position returned by RandomPosition with no change in rotation
+                Instantiate(virus1_gameObject, randomPosition, Quaternion.identity);
+            }
+
+            for (int i = 0; i < virus3_count; i++)
+            {
+                //Choose a position for randomPosition by getting a random position from our list of available Vector3s stored in gridPosition
+                Vector3 randomPosition = RandomPosition();
+
+                //Choose a random tile from tileArray and assign it to tileChoice
+                //GameObject tileChoice = tileArray[Random.Range(0, tileArray.Length)];
+
+                //Instantiate tileChoice at the position returned by RandomPosition with no change in rotation
+                Instantiate(virus2_gameObject, randomPosition, Quaternion.identity);
+            }
 
             //Set speed
 
@@ -275,6 +326,13 @@ public class central : MonoBehaviour {
     {
         turnCount++;
         Debug.Log(turnCount);
+        if(game_mode == 2)
+        {
+            if(turnCount >= turn_down)
+            {
+                Losing();
+            }
+        }
         int i = 0;
         for(i = 0; i < virus1.Count; i++)
         {
