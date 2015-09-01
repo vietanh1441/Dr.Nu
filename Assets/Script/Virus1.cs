@@ -19,6 +19,9 @@ public class Virus1 : MonoBehaviour
     // Use this for initialization
     void Start()
     {
+        //Check the current place if something exist, if it does, destroy it
+        
+
         hp = 1;
         central_obj = GameObject.FindGameObjectWithTag("Central");
         central_scr = central_obj.GetComponent<central>();
@@ -53,6 +56,13 @@ public class Virus1 : MonoBehaviour
         }
         //First, use random to randomize the color. The maximum color will be based on GameManager
         Init_color();
+
+        LayerMask mask = 9;
+        RaycastHit2D up1 = Physics2D.Raycast(transform.position, -Vector2.up, 0.1f, mask.value);
+        if (up1.transform != null)
+        {
+            Destroy(up1.transform.gameObject);
+        }
     }
 
     void Init_color()
@@ -301,6 +311,14 @@ public class Virus1 : MonoBehaviour
         hp = hp - loss;
         if (hp <= 0)
         {
+            if(type == 0)
+            {
+                central_scr.Scoring(10);
+            }
+            if(type == 1)
+            {
+                central_scr.Scoring(20);
+            }
             Destroy(gameObject);
         }
     }

@@ -30,7 +30,7 @@ public class medicine : MonoBehaviour {
     void Ready()
     {
         //When central signal is ready, send it to the top
-        transform.position = new Vector3(40.5f, 40, 0);
+        transform.position = new Vector3(40.5f, 37, 0);
 
 
         //Also, enable control

@@ -7,6 +7,10 @@ public class medicine_blitz : MonoBehaviour {
     public bool control;
     public bool ready;
     public int state;
+    public bool done;
+    public bool right_st, left_st, down_st, turn_st;
+    public int downspeed, current, godown;
+    public central central_scr;
     public float speed = 3;
     public GameObject central;
     bool slow;
@@ -15,17 +19,28 @@ public class medicine_blitz : MonoBehaviour {
     // Use this for initialization
     void Awake()
     {
+        godown = 15;
         slow = false;
         ready = false;
         left_limit = 36;
         right_limit = 46;
         //First control is false, put it in display***
         central = GameObject.FindGameObjectWithTag("Central");
+        central_scr = central.GetComponent<central>();
+        downspeed = central.GetComponent<central>().downspeed;
+        current = downspeed;
         control = false;
         //4 state of spining of the medicine
         state = 0;
         med1.localPosition = new Vector3(-0.5f, 0, 0);
         med2.localPosition = new Vector3(0.5f, 0, 0);
+
+        right_st = false;
+        left_st = false;
+        down_st = false;
+        turn_st = false;
+
+        done = false;
     }
 
     void Ready()
@@ -48,7 +63,7 @@ public class medicine_blitz : MonoBehaviour {
 
     void Store()
     {
-        transform.position = new Vector3(55.5f, 30, 0);
+        transform.position = new Vector3(54.5f, 29, 0);
 
         control = false;
         ready = false;
@@ -58,77 +73,144 @@ public class medicine_blitz : MonoBehaviour {
     void Update()
     {
 
-        if (ready == false)
+        left_st = central_scr.left_st;
+        right_st = central_scr.right_st;
+        down_st = central_scr.down_st;
+        turn_st = central_scr.turn_st;
+        if(Input.GetKeyDown(KeyCode.LeftArrow))
         {
-            //Do Nothing
+            left_st = true;
         }
+        if(Input.GetKeyDown(KeyCode.RightArrow))
+        {
+            right_st = true;
+        }
+        if(Input.GetKeyDown(KeyCode.DownArrow))
+        {
+            down_st = true;
+        }
+        if(Input.GetKeyUp(KeyCode.DownArrow))
+        {
+            down_st = false;
+        }
+        if(Input.GetKeyDown(KeyCode.UpArrow))
+        {
+            turn_st = true;
+        }
+
+        
+        if (Time.timeScale == 0)
+        { }
         else
         {
-            if (down == false && control)
+            if (ready == false)
             {
-
-                if (Input.GetKeyDown(KeyCode.A) && !left && transform.position.x > left_limit)
-                {
-                    transform.Translate(-1, 0, 0);
-                }
-                if (Input.GetKeyDown(KeyCode.D) && !right && transform.position.x < right_limit)
-                {
-                    transform.Translate(1, 0, 0);
-                }
-                if (Input.GetKeyDown(KeyCode.Q))
-                {
-                    Move(0);
-                }
-                if (Input.GetKeyDown(KeyCode.E))
-                {
-                    Move(1);
-                }
-                if (Input.GetKeyDown(KeyCode.S))
-                {
-                    GoDown();
-                }
-                //if there is an object under, then slow down
-                if (slow)
-                {
-                    speed = 1;
-                }
-                if (Input.GetKeyUp(KeyCode.S))
-                {
-                    speed = 1;
-                }
+                //Do Nothing
             }
             else
             {
-                //Function to send signal to ready the next one, disable control
-                if (control == true)
-                    central.SendMessage("GetSignal");
-                control = false;
-            }
-            if (!control)
-            {
-                if (down == false)
+                if (down == false && control)
                 {
-                    transform.Translate(0, -0.1f, 0);
+                    transform.Translate(new Vector3(0, -0.02f - 0.01f* downspeed, 0));
+                    if (left_st && !left && transform.position.x > left_limit)
+                    {
+                        transform.Translate(-1, 0, 0);
+                    }
+                    if (right_st && !right && transform.position.x < right_limit)
+                    {
+                        transform.Translate(1, 0, 0);
+                    }
+                    if (Input.GetKeyDown(KeyCode.Q))
+                    {
+                        Move(0);
+                    }
+                    if (turn_st)
+                    {
+                        Move(1);
+                    }
+                    if (Input.GetKeyDown(KeyCode.Space))
+                    {
+                        GoDown();
+                    }
+                    //if there is an object under, then slow down
+                    if (slow)
+                    {
+                        speed = 1;
+                    }
+                    if (Input.GetKeyUp(KeyCode.Space))
+                    {
+                        speed = 1;
+                    }
+                    if (down_st)
+                    {
+                        downspeed = godown;
+                    }
+                    if(!down_st)
+                    {
+                        downspeed = current;
+                    }
                 }
                 else
                 {
-                    if (Mathf.Abs(transform.position.y - (int)transform.position.y) > 0.8)
-                        transform.position = new Vector3(transform.position.x, (int)transform.position.y + 1, transform.position.z);
-                    if (Mathf.Abs((int)transform.position.y - transform.position.y) < 0.2)
-                        transform.position = new Vector3(transform.position.x, (int)transform.position.y, transform.position.z);
+                    //Function to send signal to ready the next one, disable control
+                    if (control == true)
+                        central.SendMessage("GetSignal");
+                    control = false;
                 }
+                if (!control)
+                {
+                    if (down == false)
+                    {
+                        transform.Translate(0, -0.1f, 0);
+                    }
+                    else
+                    {
+                        if (Mathf.Abs(transform.position.y - (int)transform.position.y) > 0.8)
+                            transform.position = new Vector3(transform.position.x, (int)transform.position.y + 1, transform.position.z);
+                        if (Mathf.Abs((int)transform.position.y - transform.position.y) < 0.2)
+                            transform.position = new Vector3(transform.position.x, (int)transform.position.y, transform.position.z);
+                    }
+                }
+                if (transform.position.x < left_limit)
+                    transform.position = new Vector3(left_limit + 0.5f, transform.position.y, transform.position.z);
+                if (transform.position.x > right_limit)
+                    transform.position = new Vector3(right_limit - 0.5f, transform.position.y, transform.position.z);
             }
-            if (transform.position.x < left_limit)
-                transform.position = new Vector3(left_limit + 0.5f, transform.position.y, transform.position.z);
-            if (transform.position.x > right_limit)
-                transform.position = new Vector3(right_limit - 0.5f, transform.position.y, transform.position.z);
+
+            CheckSide();
         }
-
-        CheckSide();
-
+        if(down)
+        {
+            if(transform.position.y % 1 != 0)
+            {
+                Debug.Log("Error");
+                Correction();
+            }
+            done = true;
+        }
+        if(!done)
+        {
+            right_st = false;
+            left_st = false;
+            // down_st = false;
+            turn_st = false;
+            central_scr.right_st = false;
+            central_scr.left_st = false;
+            // down_st = false;
+            central_scr.turn_st = false;
+        }
+        
     }
 
-
+    void Correction()
+    {
+        float over = transform.position.y % 1;
+        Debug.Log(over);
+        if (over > 0.4)
+        {
+            transform.position = new Vector3(transform.position.x, transform.position.y + (1 - over), transform.position.z);
+        }
+    }
     void GoDown()
     {
         float pos = 0;

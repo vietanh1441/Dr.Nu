@@ -1,0 +1,297 @@
+fileFormatVersion: 2
+guid: 9db12fe6b3a100e448d167618adbb5ce
+timeCreated: 1441006304
+licenseType: Free
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: blueSheet_1
+    21300002: blueSheet_2
+    21300004: blueSheet_3
+    21300006: blueSheet_4
+    21300008: blueSheet_0
+    21300010: blueSheet_5
+    21300012: blueSheet_6
+    21300014: blueSheet_7
+    21300016: blueSheet_8
+    21300018: blueSheet_9
+    21300020: blueSheet_10
+    21300022: blueSheet_11
+    21300024: blueSheet_12
+    21300026: blueSheet_13
+    21300028: blueSheet_14
+    21300030: blueSheet_15
+    21300032: blueSheet_16
+    21300034: blueSheet_17
+    21300036: blueSheet_18
+    21300038: blueSheet_19
+    21300040: blueSheet_20
+    21300042: blueSheet_21
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 1
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: .25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  cubemapConvolution: 0
+  cubemapConvolutionSteps: 8
+  cubemapConvolutionExponent: 1.5
+  seamlessCubemap: 0
+  textureFormat: -1
+  maxTextureSize: 2048
+  textureSettings:
+    filterMode: -1
+    aniso: 16
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  rGBM: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: .5, y: .5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 25
+  alphaIsTransparency: 1
+  textureType: 8
+  buildTargetSettings: []
+  spriteSheet:
+    sprites:
+    - name: blueSheet_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 374
+        width: 190
+        height: 47
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: blueSheet_1
+      rect:
+        serializedVersion: 2
+        x: 197
+        y: 374
+        width: 190
+        height: 47
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: blueSheet_2
+      rect:
+        serializedVersion: 2
+        x: 459
+        y: 373
+        width: 190
+        height: 47
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: blueSheet_3
+      rect:
+        serializedVersion: 2
+        x: 656
+        y: 373
+        width: 190
+        height: 47
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: blueSheet_4
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 320
+        width: 190
+        height: 45
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: blueSheet_5
+      rect:
+        serializedVersion: 2
+        x: 197
+        y: 319
+        width: 190
+        height: 45
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: blueSheet_6
+      rect:
+        serializedVersion: 2
+        x: 458
+        y: 320
+        width: 190
+        height: 45
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: blueSheet_7
+      rect:
+        serializedVersion: 2
+        x: 656
+        y: 320
+        width: 190
+        height: 45
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: blueSheet_9
+      rect:
+        serializedVersion: 2
+        x: 458
+        y: 243
+        width: 190
+        height: 47
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: blueSheet_10
+      rect:
+        serializedVersion: 2
+        x: 655
+        y: 243
+        width: 190
+        height: 47
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: blueSheet_11
+      rect:
+        serializedVersion: 2
+        x: 458
+        y: 193
+        width: 190
+        height: 45
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: blueSheet_12
+      rect:
+        serializedVersion: 2
+        x: 656
+        y: 193
+        width: 190
+        height: 45
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: blueSheet_13
+      rect:
+        serializedVersion: 2
+        x: 455
+        y: 17
+        width: 190
+        height: 45
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: blueSheet_14
+      rect:
+        serializedVersion: 2
+        x: 656
+        y: 18
+        width: 190
+        height: 45
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: blueSheet_15
+      rect:
+        serializedVersion: 2
+        x: 339
+        y: 96
+        width: 39
+        height: 28
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: blueSheet_8
+      rect:
+        serializedVersion: 2
+        x: 378
+        y: 96
+        width: 39
+        height: 28
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: blueSheet_16
+      rect:
+        serializedVersion: 2
+        x: 430
+        y: 96
+        width: 39
+        height: 28
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: blueSheet_17
+      rect:
+        serializedVersion: 2
+        x: 469
+        y: 96
+        width: 39
+        height: 28
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: blueSheet_18
+      rect:
+        serializedVersion: 2
+        x: 416
+        y: 156
+        width: 28
+        height: 39
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: blueSheet_19
+      rect:
+        serializedVersion: 2
+        x: 526
+        y: 133
+        width: 28
+        height: 39
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: blueSheet_20
+      rect:
+        serializedVersion: 2
+        x: 386
+        y: 57
+        width: 36
+        height: 36
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: blueSheet_21
+      rect:
+        serializedVersion: 2
+        x: 386
+        y: 21
+        width: 36
+        height: 36
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

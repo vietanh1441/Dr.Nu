@@ -467,4 +467,6 @@ public class individual : MonoBehaviour {
             }
         }
     }
+
+   
 }

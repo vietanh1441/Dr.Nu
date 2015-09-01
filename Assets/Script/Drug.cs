@@ -15,6 +15,7 @@ public class Drug : MonoBehaviour {
 	void Start () {
         central_obj = GameObject.FindGameObjectWithTag("Central");
         central_scr = central_obj.GetComponent<central>();
+        central_scr.medicine_lst.Add(gameObject);
         spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
             spriteRenderer.sprite = color_sprite[0];   
         //First, use random to randomize the color. The maximum color will be based on GameManager
@@ -55,24 +56,25 @@ public class Drug : MonoBehaviour {
 
     void Update()
     {
-        CheckDown();
-        if ( is_link == false)
-        {
-            
         
-            if (down == null)
+            CheckDown();
+            if (is_link == false)
             {
-                transform.Translate(0, -0.1f, 0);
-            }
-            else if (!is_link)
-            {
-                if (Mathf.Abs(transform.position.y - (int)transform.position.y) > 0.8)
-                    transform.position = new Vector3(transform.position.x, (int)transform.position.y + 1, transform.position.z);
-                if (Mathf.Abs((int)transform.position.y - transform.position.y) < 0.2)
-                    transform.position = new Vector3(transform.position.x, (int)transform.position.y, transform.position.z);
-            }
-        }
 
+
+                if (down == null)
+                {
+                    transform.Translate(0, -0.1f, 0);
+                }
+                else if (!is_link)
+                {
+                    if (Mathf.Abs(transform.position.y - (int)transform.position.y) > 0.8)
+                        transform.position = new Vector3(transform.position.x, (int)transform.position.y + 1, transform.position.z);
+                    if (Mathf.Abs((int)transform.position.y - transform.position.y) < 0.2)
+                        transform.position = new Vector3(transform.position.x, (int)transform.position.y, transform.position.z);
+                }
+            }
+        
     }
 
     void GoLeft()
@@ -397,7 +399,7 @@ public class Drug : MonoBehaviour {
     void OnDestroy()
     {
 
-        
+        central_scr.medicine_lst.Remove(gameObject);
 
     }
 
@@ -409,4 +411,7 @@ public class Drug : MonoBehaviour {
         is_link = false;
         spriteRenderer.sprite = color_sprite[4];
     }
+
+  
+
 }
